@@ -10,7 +10,9 @@
       "PROGRESS": {
         "TITLE": "Progress",
         "DESCRIPTION": "User training dynamics will be shown here.",
-        "CHART_ARIA": "Progress line chart"
+        "CHART_ARIA": "Progress line chart",
+        "EMPTY_NAMES": "No training names yet. Add your first training.",
+        "CHART_PLACEHOLDER": "Chart placeholder without data for now."
       },
       "HISTORY": {
         "TITLE": "History",
