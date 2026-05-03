@@ -16,7 +16,9 @@
             "outputPath": "dist/simple-sport",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -24,8 +26,15 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css"],
-            "scripts": []
+            "styles": [
+              "src/styles.css",
+              "node_modules/daterangepicker/daterangepicker.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/daterangepicker/daterangepicker.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -61,7 +70,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -69,8 +81,15 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css"],
-            "scripts": []
+            "styles": [
+              "src/styles.css",
+              "node_modules/daterangepicker/daterangepicker.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/daterangepicker/daterangepicker.js"
+            ]
           }
         }
       }
