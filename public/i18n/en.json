@@ -12,7 +12,7 @@
         "DESCRIPTION": "User training dynamics will be shown here.",
         "CHART_ARIA": "Progress line chart",
         "EMPTY_NAMES": "No training names yet. Add your first training.",
-        "CHART_PLACEHOLDER": "Chart placeholder without data for now."
+        "CHART_PLACEHOLDER": "Chart for the last 20 days."
       },
       "HISTORY": {
         "TITLE": "History",
