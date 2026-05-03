@@ -2,13 +2,20 @@ import { Injectable } from '@angular/core';
 import { TrainingContract, TrainingContractRecord } from '../models/training-contract.model';
 import { TrainingNameService } from './training-name.service';
 
+export interface TrainingDayRecord {
+  date: string;
+  trainings: TrainingContractRecord[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class TrainingContractService {
   private contracts: TrainingContractRecord[] = [];
 
-  constructor(private readonly trainingNameService: TrainingNameService) {}
+  constructor(private readonly trainingNameService: TrainingNameService) {
+    this.seedMockData();
+  }
 
   getAll(): TrainingContractRecord[] {
     return [...this.contracts];
@@ -19,40 +26,66 @@ export class TrainingContractService {
   }
 
   add(contract: TrainingContract): TrainingContractRecord {
-    const record: TrainingContractRecord = {
-      ...contract,
-      id: this.generateId()
-    };
-
+    const record: TrainingContractRecord = { ...contract, id: this.generateId() };
     this.trainingNameService.ensureName(record.name);
     this.contracts = [...this.contracts, record];
-
     return record;
   }
 
   update(id: string, payload: Partial<TrainingContract>): TrainingContractRecord | undefined {
     const existing = this.getById(id);
-    if (!existing) {
-      return undefined;
-    }
+    if (!existing) return undefined;
 
-    const updated: TrainingContractRecord = {
-      ...existing,
-      ...payload,
-      id
-    };
-
+    const updated: TrainingContractRecord = { ...existing, ...payload, id };
     this.trainingNameService.ensureName(updated.name);
     this.contracts = this.contracts.map((contract) => (contract.id === id ? updated : contract));
-
     return updated;
   }
 
   remove(id: string): boolean {
     const previousLength = this.contracts.length;
     this.contracts = this.contracts.filter((contract) => contract.id !== id);
-
     return this.contracts.length < previousLength;
+  }
+
+  getTrainingNames(): string[] {
+    const names = new Set(this.contracts.map((contract) => contract.name.trim()).filter(Boolean));
+    return Array.from(names.values());
+  }
+
+  getTrainingDays(): TrainingDayRecord[] {
+    const grouped = new Map<string, TrainingContractRecord[]>();
+
+    for (const contract of this.contracts) {
+      const dayKey = contract.date.slice(0, 10);
+      if (!grouped.has(dayKey)) {
+        grouped.set(dayKey, []);
+      }
+      grouped.get(dayKey)?.push(contract);
+    }
+
+    return Array.from(grouped.entries())
+      .map(([date, trainings]) => ({ date, trainings }))
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
+  }
+
+  private seedMockData(): void {
+    if (this.contracts.length > 0) return;
+
+    const names = ['Push Ups', 'Squats', 'Bench Press'];
+    for (let dayOffset = 0; dayOffset < 40; dayOffset += 1) {
+      const date = new Date();
+      date.setDate(date.getDate() - dayOffset);
+
+      names.forEach((name, index) => {
+        this.add({
+          name,
+          reps_count: 10 + index * 5 + (dayOffset % 4),
+          weeight: name === 'Bench Press' ? 40 + (dayOffset % 6) * 2 : undefined,
+          date: date.toISOString()
+        });
+      });
+    }
   }
 
   private generateId(): string {

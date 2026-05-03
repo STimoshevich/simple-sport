@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../pipes/translate.pipe';
-import { TrainingNameService } from '../../services/training-name.service';
+import { TrainingContractService } from '../../services/training-contract.service';
 
 @Component({
   standalone: true,
@@ -23,16 +23,10 @@ import { TrainingNameService } from '../../services/training-name.service';
         <p>{{ 'APP.PAGES.PROGRESS.EMPTY_NAMES' | translate }}</p>
       </ng-template>
     </section>
-  `,
-  styles: [
-    `
-      .name-list { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-      .name-list a { display: block; padding: 10px 12px; border-radius: 8px; color: #e2e8f0; text-decoration: none; background: rgba(148, 163, 184, 0.2); }
-    `
-  ]
+  `
 })
 export class ProgressPageComponent {
-  readonly names = this.trainingNameService.getAllNames();
+  readonly names = this.trainingContractService.getTrainingNames();
 
-  constructor(private readonly trainingNameService: TrainingNameService) {}
+  constructor(private readonly trainingContractService: TrainingContractService) {}
 }
