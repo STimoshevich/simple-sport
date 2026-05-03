@@ -27,9 +27,12 @@
     "@angular-devkit/build-angular": "^18.2.0",
     "@angular/cli": "^18.2.0",
     "@angular/compiler-cli": "^18.2.0",
-    "typescript": "^5.5.4",
+    "typescript": "5.5.4",
     "@capacitor/cli": "^6.1.2",
     "@capacitor/android": "^6.1.2",
     "@capacitor/ios": "^6.1.2"
+  },
+  "overrides": {
+    "typescript": "5.5.4"
   }
 }
