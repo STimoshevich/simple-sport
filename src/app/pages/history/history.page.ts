@@ -4,7 +4,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 
 interface CompletedWorkoutDay {
   date: Date;
-  trainings: { nameKey: string; reps: number; weight?: number }[];
+  trainings: { name: string; reps: number; weight?: number }[];
 }
 
 @Component({
@@ -20,7 +20,7 @@ interface CompletedWorkoutDay {
         <h3>{{ day.date | date: 'dd.MM.yyyy' }}</h3>
         <ul>
           <li *ngFor="let workout of day.trainings">
-            <strong>{{ workout.nameKey | translate }}</strong>
+            <strong>{{ workout.name }}</strong>
             <span> — {{ workout.reps }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>
             <span *ngIf="workout.weight"> / {{ workout.weight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>
           </li>
@@ -33,50 +33,27 @@ interface CompletedWorkoutDay {
   `,
   styles: [
     `
-      .history-page {
-        height: calc(100dvh - 48px);
-        overflow-y: auto;
-        padding-right: 8px;
-      }
-
-      .day-card {
-        background: rgba(15, 23, 42, 0.55);
-        border: 1px solid rgba(148, 163, 184, 0.25);
-        border-radius: 12px;
-        padding: 12px;
-        margin-bottom: 12px;
-      }
+      .history-page { height: calc(100dvh - 48px); overflow-y: auto; padding-right: 8px; }
+      .day-card { background: rgba(15, 23, 42, 0.55); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
     `
   ]
 })
 export class HistoryPageComponent {
   private readonly pageSize = 5;
   private readonly allDays = this.buildMockDays(40);
-
   visibleDays: CompletedWorkoutDay[] = [];
   hasMore = true;
 
-  constructor() {
-    this.loadMore();
-  }
+  constructor() { this.loadMore(); }
 
   onScroll(event: Event): void {
-    if (!this.hasMore) {
-      return;
-    }
-
+    if (!this.hasMore) return;
     const element = event.target as HTMLElement;
-    const nearBottom = element.scrollTop + element.clientHeight >= element.scrollHeight - 80;
-
-    if (nearBottom) {
-      this.loadMore();
-    }
+    if (element.scrollTop + element.clientHeight >= element.scrollHeight - 80) this.loadMore();
   }
 
   private loadMore(): void {
-    const currentSize = this.visibleDays.length;
-    const next = this.allDays.slice(currentSize, currentSize + this.pageSize);
-
+    const next = this.allDays.slice(this.visibleDays.length, this.visibleDays.length + this.pageSize);
     this.visibleDays = [...this.visibleDays, ...next];
     this.hasMore = this.visibleDays.length < this.allDays.length;
   }
@@ -85,17 +62,12 @@ export class HistoryPageComponent {
     return Array.from({ length: daysCount }, (_, index) => {
       const date = new Date();
       date.setDate(date.getDate() - index);
-
       return {
         date,
         trainings: [
-          { nameKey: 'APP.PAGES.HISTORY.WORKOUTS.PUSH_UPS', reps: 20 + (index % 5) * 2 },
-          { nameKey: 'APP.PAGES.HISTORY.WORKOUTS.SQUATS', reps: 30 + (index % 4) * 3 },
-          {
-            nameKey: 'APP.PAGES.HISTORY.WORKOUTS.BENCH_PRESS',
-            reps: 10 + (index % 3),
-            weight: 40 + (index % 6) * 2
-          }
+          { name: 'Push Ups', reps: 20 + (index % 5) * 2 },
+          { name: 'Squats', reps: 30 + (index % 4) * 3 },
+          { name: 'Bench Press', reps: 10 + (index % 3), weight: 40 + (index % 6) * 2 }
         ]
       };
     });

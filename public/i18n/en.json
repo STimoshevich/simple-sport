@@ -18,12 +18,7 @@
         "LOADING_MORE": "Loading 5 more days...",
         "NO_MORE": "No more data",
         "REPS": "reps",
-        "KG": "kg",
-        "WORKOUTS": {
-          "PUSH_UPS": "Push Ups",
-          "SQUATS": "Squats",
-          "BENCH_PRESS": "Bench Press"
-        }
+        "KG": "kg"
       },
       "CONFIGURATION": {
         "TITLE": "Configuration",
