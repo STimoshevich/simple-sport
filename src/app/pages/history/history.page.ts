@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-history-page',
+  imports: [TranslatePipe],
   template: `
     <section class="page">
-      <h2>Прошедшие</h2>
-      <p>Здесь будет история завершённых тренировок.</p>
+      <h2>{{ 'APP.PAGES.HISTORY.TITLE' | translate }}</h2>
+      <p>{{ 'APP.PAGES.HISTORY.DESCRIPTION' | translate }}</p>
     </section>
   `
 })

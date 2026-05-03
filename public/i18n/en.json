@@ -1,0 +1,24 @@
+{
+  "APP": {
+    "TITLE": "SimpleSport",
+    "MENU": {
+      "PROGRESS": "Progress",
+      "HISTORY": "History",
+      "CONFIGURATION": "Configuration"
+    },
+    "PAGES": {
+      "PROGRESS": {
+        "TITLE": "Progress",
+        "DESCRIPTION": "User training dynamics will be shown here."
+      },
+      "HISTORY": {
+        "TITLE": "History",
+        "DESCRIPTION": "Completed training history will be shown here."
+      },
+      "CONFIGURATION": {
+        "TITLE": "Configuration",
+        "DESCRIPTION": "Application and profile settings will be shown here."
+      }
+    }
+  }
+}
