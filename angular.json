@@ -27,14 +27,9 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/daterangepicker/daterangepicker.css"
+              "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/moment/min/moment.min.js",
-              "node_modules/daterangepicker/daterangepicker.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -82,14 +77,9 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/daterangepicker/daterangepicker.css"
+              "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/moment/min/moment.min.js",
-              "node_modules/daterangepicker/daterangepicker.js"
-            ]
+            "scripts": []
           }
         }
       }

@@ -1,27 +1,35 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ECharts, init, use } from 'echarts/core';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
+import { NgxDaterangepickerBootstrapDirective } from 'ngx-daterangepicker-bootstrap';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractService } from '../../services/training-contract.service';
-
-declare const $: any;
-declare const moment: any;
 
 use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
 @Component({
   standalone: true,
   selector: 'app-progress-detail-page',
-  imports: [TranslatePipe],
+  imports: [FormsModule, TranslatePipe, NgxDaterangepickerBootstrapDirective],
   template: `
     <section class="page">
       <h2>{{ trainingName }}</h2>
       <p>{{ 'APP.PAGES.PROGRESS.CHART_PLACEHOLDER' | translate }}</p>
 
-      <input #rangeInput class="range-input" type="text" readonly />
+      <input
+        class="range-input"
+        type="text"
+        ngxDaterangepickerBootstrap
+        [(ngModel)]="selectedRange"
+        [locale]="{ format: 'YYYY-MM-DD' }"
+        (datesUpdated)="onRangeUpdated()"
+        readonly
+      />
+
       <div #chartContainer class="progress-chart" [attr.aria-label]="'APP.PAGES.PROGRESS.CHART_ARIA' | translate"></div>
     </section>
   `,
@@ -32,9 +40,9 @@ use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 })
 export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('rangeInput', { static: true }) rangeInput!: ElementRef<HTMLInputElement>;
 
   trainingName = '';
+  selectedRange = { startDate: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000), endDate: new Date() };
   private chart?: ECharts;
 
   constructor(private readonly route: ActivatedRoute, private readonly trainingService: TrainingContractService) {
@@ -43,28 +51,22 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.chart = init(this.chartContainer.nativeElement);
-    this.renderSeries(20);
-
-    const start = moment().subtract(19, 'days');
-    const end = moment();
-
-    $(this.rangeInput.nativeElement).daterangepicker({
-      startDate: start,
-      endDate: end,
-      locale: { format: 'YYYY-MM-DD' }
-    });
-
-    $(this.rangeInput.nativeElement).on('apply.daterangepicker', (_: unknown, picker: any) => {
-      const days = picker.endDate.diff(picker.startDate, 'days') + 1;
-      this.renderSeries(days);
-    });
+    this.renderSeriesForSelectedRange();
   }
 
   ngOnDestroy(): void {
     this.chart?.dispose();
   }
 
-  private renderSeries(days: number): void {
+  onRangeUpdated(): void {
+    this.renderSeriesForSelectedRange();
+  }
+
+  private renderSeriesForSelectedRange(): void {
+    const start = new Date(this.selectedRange.startDate);
+    const end = new Date(this.selectedRange.endDate);
+    const days = Math.max(1, Math.floor((end.getTime() - start.getTime()) / (24 * 60 * 60 * 1000)) + 1);
+
     const series = this.trainingService.getProgressSeriesByName(this.trainingName, days);
     this.chart?.setOption({
       grid: { left: 16, right: 16, top: 24, bottom: 24, containLabel: true },
