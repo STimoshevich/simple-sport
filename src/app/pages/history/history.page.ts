@@ -1,15 +1,112 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+
+interface CompletedWorkoutDay {
+  date: Date;
+  trainings: { name: string; reps: number; weight?: number }[];
+}
 
 @Component({
   standalone: true,
   selector: 'app-history-page',
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, CommonModule, DatePipe],
   template: `
-    <section class="page">
+    <section class="page history-page" (scroll)="onScroll($event)">
       <h2>{{ 'APP.PAGES.HISTORY.TITLE' | translate }}</h2>
       <p>{{ 'APP.PAGES.HISTORY.DESCRIPTION' | translate }}</p>
+
+      <div class="day-card" *ngFor="let day of visibleDays">
+        <h3>{{ day.date | date: 'dd.MM.yyyy' }}</h3>
+        <ul>
+          <li *ngFor="let workout of day.trainings">
+            <strong>{{ workout.name }}</strong>
+            <span> — {{ workout.reps }} reps</span>
+            <span *ngIf="workout.weight"> / {{ workout.weight }} kg</span>
+          </li>
+        </ul>
+      </div>
+
+      <p class="loading" *ngIf="hasMore">Загрузка ещё 5 дней...</p>
+      <p class="loading" *ngIf="!hasMore">Данные закончились</p>
     </section>
-  `
+  `,
+  styles: [
+    `
+      .history-page {
+        height: calc(100dvh - 48px);
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+
+      .day-card {
+        background: rgba(15, 23, 42, 0.55);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .day-card h3 {
+        margin: 0 0 8px;
+      }
+
+      .day-card ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .loading {
+        opacity: 0.8;
+      }
+    `
+  ]
 })
-export class HistoryPageComponent {}
+export class HistoryPageComponent {
+  private readonly pageSize = 5;
+  private readonly allDays = this.buildMockDays(40);
+
+  visibleDays: CompletedWorkoutDay[] = [];
+  hasMore = true;
+
+  constructor() {
+    this.loadMore();
+  }
+
+  onScroll(event: Event): void {
+    if (!this.hasMore) {
+      return;
+    }
+
+    const element = event.target as HTMLElement;
+    const nearBottom = element.scrollTop + element.clientHeight >= element.scrollHeight - 80;
+
+    if (nearBottom) {
+      this.loadMore();
+    }
+  }
+
+  private loadMore(): void {
+    const currentSize = this.visibleDays.length;
+    const next = this.allDays.slice(currentSize, currentSize + this.pageSize);
+
+    this.visibleDays = [...this.visibleDays, ...next];
+    this.hasMore = this.visibleDays.length < this.allDays.length;
+  }
+
+  private buildMockDays(daysCount: number): CompletedWorkoutDay[] {
+    return Array.from({ length: daysCount }, (_, index) => {
+      const date = new Date();
+      date.setDate(date.getDate() - index);
+
+      return {
+        date,
+        trainings: [
+          { name: 'Push Ups', reps: 20 + (index % 5) * 2 },
+          { name: 'Squats', reps: 30 + (index % 4) * 3 },
+          { name: 'Bench Press', reps: 10 + (index % 3), weight: 40 + (index % 6) * 2 }
+        ]
+      };
+    });
+  }
+}
