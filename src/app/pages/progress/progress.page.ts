@@ -17,48 +17,18 @@ use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
       <h2>{{ 'APP.PAGES.PROGRESS.TITLE' | translate }}</h2>
       <p>{{ 'APP.PAGES.PROGRESS.DESCRIPTION' | translate }}</p>
 
-      <div #chartContainer class="progress-chart" aria-label="Progress line chart"></div>
+      <div #chartContainer class="progress-chart" [attr.aria-label]="'APP.PAGES.PROGRESS.CHART_ARIA' | translate"></div>
     </section>
   `,
   styles: [
     `
-      .progress-chart {
-        width: 100%;
-        height: 280px;
-        margin-top: 16px;
-      }
+      .progress-chart { width: 100%; height: 280px; margin-top: 16px; }
     `
   ]
 })
 export class ProgressPageComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('chartContainer', { static: true })
-  chartContainer!: ElementRef<HTMLDivElement>;
-
+  @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef<HTMLDivElement>;
   private chart?: ECharts;
-
-  ngAfterViewInit(): void {
-    this.chart = init(this.chartContainer.nativeElement);
-    this.chart.setOption({
-      grid: { left: 16, right: 16, top: 24, bottom: 24, containLabel: true },
-      tooltip: { trigger: 'axis' },
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: [5, 6, 7, 8, 7, 9, 10],
-          type: 'line',
-          smooth: true
-        }
-      ]
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.chart?.dispose();
-  }
+  ngAfterViewInit(): void { this.chart = init(this.chartContainer.nativeElement); this.chart.setOption({grid:{left:16,right:16,top:24,bottom:24,containLabel:true},tooltip:{trigger:'axis'},xAxis:{type:'category',data:['Mon','Tue','Wed','Thu','Fri','Sat','Sun']},yAxis:{type:'value'},series:[{data:[5,6,7,8,7,9,10],type:'line',smooth:true}]}); }
+  ngOnDestroy(): void { this.chart?.dispose(); }
 }

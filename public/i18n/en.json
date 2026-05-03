@@ -9,11 +9,21 @@
     "PAGES": {
       "PROGRESS": {
         "TITLE": "Progress",
-        "DESCRIPTION": "User training dynamics will be shown here."
+        "DESCRIPTION": "User training dynamics will be shown here.",
+        "CHART_ARIA": "Progress line chart"
       },
       "HISTORY": {
         "TITLE": "History",
-        "DESCRIPTION": "Completed training history will be shown here."
+        "DESCRIPTION": "Completed training history will be shown here.",
+        "LOADING_MORE": "Loading 5 more days...",
+        "NO_MORE": "No more data",
+        "REPS": "reps",
+        "KG": "kg",
+        "WORKOUTS": {
+          "PUSH_UPS": "Push Ups",
+          "SQUATS": "Squats",
+          "BENCH_PRESS": "Bench Press"
+        }
       },
       "CONFIGURATION": {
         "TITLE": "Configuration",

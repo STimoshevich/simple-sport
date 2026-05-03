@@ -4,7 +4,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 
 interface CompletedWorkoutDay {
   date: Date;
-  trainings: { name: string; reps: number; weight?: number }[];
+  trainings: { nameKey: string; reps: number; weight?: number }[];
 }
 
 @Component({
@@ -20,15 +20,15 @@ interface CompletedWorkoutDay {
         <h3>{{ day.date | date: 'dd.MM.yyyy' }}</h3>
         <ul>
           <li *ngFor="let workout of day.trainings">
-            <strong>{{ workout.name }}</strong>
-            <span> — {{ workout.reps }} reps</span>
-            <span *ngIf="workout.weight"> / {{ workout.weight }} kg</span>
+            <strong>{{ workout.nameKey | translate }}</strong>
+            <span> — {{ workout.reps }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>
+            <span *ngIf="workout.weight"> / {{ workout.weight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>
           </li>
         </ul>
       </div>
 
-      <p class="loading" *ngIf="hasMore">Загрузка ещё 5 дней...</p>
-      <p class="loading" *ngIf="!hasMore">Данные закончились</p>
+      <p class="loading" *ngIf="hasMore">{{ 'APP.PAGES.HISTORY.LOADING_MORE' | translate }}</p>
+      <p class="loading" *ngIf="!hasMore">{{ 'APP.PAGES.HISTORY.NO_MORE' | translate }}</p>
     </section>
   `,
   styles: [
@@ -45,19 +45,6 @@ interface CompletedWorkoutDay {
         border-radius: 12px;
         padding: 12px;
         margin-bottom: 12px;
-      }
-
-      .day-card h3 {
-        margin: 0 0 8px;
-      }
-
-      .day-card ul {
-        margin: 0;
-        padding-left: 18px;
-      }
-
-      .loading {
-        opacity: 0.8;
       }
     `
   ]
@@ -102,9 +89,13 @@ export class HistoryPageComponent {
       return {
         date,
         trainings: [
-          { name: 'Push Ups', reps: 20 + (index % 5) * 2 },
-          { name: 'Squats', reps: 30 + (index % 4) * 3 },
-          { name: 'Bench Press', reps: 10 + (index % 3), weight: 40 + (index % 6) * 2 }
+          { nameKey: 'APP.PAGES.HISTORY.WORKOUTS.PUSH_UPS', reps: 20 + (index % 5) * 2 },
+          { nameKey: 'APP.PAGES.HISTORY.WORKOUTS.SQUATS', reps: 30 + (index % 4) * 3 },
+          {
+            nameKey: 'APP.PAGES.HISTORY.WORKOUTS.BENCH_PRESS',
+            reps: 10 + (index % 3),
+            weight: 40 + (index % 6) * 2
+          }
         ]
       };
     });
