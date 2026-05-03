@@ -1,6 +1,11 @@
 <div class="layout">
   <aside class="side-menu">
-    <h1 class="logo">{{ 'APP.TITLE' | translate }}</h1>
+    <div class="menu-header">
+      <h1 class="logo">{{ 'APP.TITLE' | translate }}</h1>
+      <button class="lang-button" type="button" (click)="toggleLanguage()">
+        {{ getCurrentLanguage() }}
+      </button>
+    </div>
     <nav>
       <a routerLink="/progress" routerLinkActive="active">{{ 'APP.MENU.PROGRESS' | translate }}</a>
       <a routerLink="/history" routerLinkActive="active">{{ 'APP.MENU.HISTORY' | translate }}</a>

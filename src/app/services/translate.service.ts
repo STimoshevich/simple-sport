@@ -5,11 +5,28 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class TranslateService {
-  private readonly language = 'ru';
+  private language: 'ru' | 'en' = 'ru';
   private translations: Record<string, unknown> = {};
 
   constructor(private readonly http: HttpClient) {
     this.loadTranslations();
+  }
+
+  getCurrentLanguage(): 'ru' | 'en' {
+    return this.language;
+  }
+
+  setLanguage(language: 'ru' | 'en'): void {
+    if (this.language === language) {
+      return;
+    }
+
+    this.language = language;
+    this.loadTranslations();
+  }
+
+  toggleLanguage(): void {
+    this.setLanguage(this.language === 'ru' ? 'en' : 'ru');
   }
 
   translate(key: string): string {

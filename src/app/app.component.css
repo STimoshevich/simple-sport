@@ -17,9 +17,27 @@
   border-right: 1px solid rgba(226, 232, 240, 0.15);
 }
 
+.menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
 .logo {
-  margin: 0 0 16px;
+  margin: 0;
   font-size: 20px;
+}
+
+.lang-button {
+  border: 1px solid rgba(226, 232, 240, 0.35);
+  background: transparent;
+  color: #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 nav {
