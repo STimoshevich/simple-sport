@@ -6,4 +6,26 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background: #020617;
+  color: #ffffff;
+}
+
+.mat-mdc-form-field,
+.mat-mdc-select-value-text,
+.mat-mdc-option .mdc-list-item__primary-text,
+.mat-mdc-card,
+.mat-mdc-button,
+.mat-mdc-checkbox label,
+.mat-datepicker-content,
+.mat-calendar {
+  color: #ffffff !important;
+}
+
+.fullscreen-date-range-picker .mat-datepicker-content-container,
+.fullscreen-date-range-picker .mat-mdc-datepicker-content,
+.fullscreen-date-range-picker .mat-mdc-datepicker-content .mat-calendar {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
 }

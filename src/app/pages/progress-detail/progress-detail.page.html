@@ -5,11 +5,11 @@
   <mat-form-field appearance="outline" class="range-input">
     <mat-label>Date range</mat-label>
     <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate [(ngModel)]="selectedRange.start" (dateChange)="onRangeUpdated()" />
-      <input matEndDate [(ngModel)]="selectedRange.end" (dateChange)="onRangeUpdated()" />
+      <input matStartDate [(ngModel)]="selectedRange.start" (dateChange)="onRangeUpdated()" readonly />
+      <input matEndDate [(ngModel)]="selectedRange.end" (dateChange)="onRangeUpdated()" readonly />
     </mat-date-range-input>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
+    <mat-date-range-picker #picker [touchUi]="true" panelClass="fullscreen-date-range-picker"></mat-date-range-picker>
   </mat-form-field>
 
   <h3>{{ 'APP.PAGES.PROGRESS.REPS_CHART' | translate }}</h3>
