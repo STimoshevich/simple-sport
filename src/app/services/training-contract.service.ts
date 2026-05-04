@@ -59,7 +59,12 @@ export class TrainingContractService {
       grouped.get(dayKey)?.push(contract);
     }
 
-    return Array.from(grouped.entries()).map(([date, trainings]) => ({ date, trainings })).sort((a, b) => (a.date < b.date ? 1 : -1));
+    return Array.from(grouped.entries())
+      .map(([date, trainings]) => ({
+        date,
+        trainings: [...trainings].sort((a, b) => (a.date < b.date ? 1 : -1))
+      }))
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
   }
 
   getProgressSeriesByName(name: string, days = 20): { dates: string[]; reps: number[]; weights: number[] } {
