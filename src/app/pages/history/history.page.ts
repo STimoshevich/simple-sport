@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractService, TrainingDayRecord } from '../../services/training-contract.service';
 
@@ -62,7 +62,7 @@ export class HistoryPageComponent {
   hasMore = true;
   showArcived = false;
 
-  constructor(private readonly trainingContractService: TrainingContractService, private readonly router: Router) {
+  constructor(private readonly trainingContractService: TrainingContractService) {
     this.loadMore();
   }
 
@@ -73,12 +73,11 @@ export class HistoryPageComponent {
   }
 
   addTraining(): void {
-    const created = this.trainingContractService.addEmptyForToday();
+    this.trainingContractService.addEmptyForToday();
     this.allDays = this.trainingContractService.getTrainingDays();
     this.visibleDays = this.allDays.slice(0, Math.max(this.pageSize, this.visibleDays.length));
     this.rebuildFilteredDays();
     this.hasMore = this.visibleDays.length < this.allDays.length;
-    this.router.navigate(['/history/workout', created.id]);
   }
 
   toggleArcived(event: Event): void {
