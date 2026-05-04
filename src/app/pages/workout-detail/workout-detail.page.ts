@@ -56,13 +56,13 @@ export class WorkoutDetailPageComponent {
   ) {
     const groupId = this.route.snapshot.paramMap.get('id') ?? '';
     this.workouts = this.trainingContractService.getByGroupId(groupId);
-    this.availableNames = this.trainingNameService.getAll();
+    this.availableNames = this.trainingNameService.getAllNames();
   }
 
   onNameChange(workout: TrainingContractRecord): void {
     this.trainingContractService.update(workout.id, { name: workout.name });
     this.trainingNameService.ensureName(workout.name);
-    this.availableNames = this.trainingNameService.getAll();
+    this.availableNames = this.trainingNameService.getAllNames();
   }
 
   onMetricsChange(workout: TrainingContractRecord): void {
