@@ -6,8 +6,22 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+
+body.theme-dark {
+  --app-bg: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  --app-text: #ffffff;
+  --surface-bg: #0f172a;
   background: #020617;
   color: #ffffff;
+}
+
+body.theme-light {
+  --app-bg: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  --app-text: #0f172a;
+  --surface-bg: #ffffff;
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 .mat-mdc-form-field,
@@ -18,7 +32,13 @@ body {
 .mat-mdc-checkbox label,
 .mat-datepicker-content,
 .mat-calendar {
-  color: #ffffff !important;
+  color: var(--app-text) !important;
+}
+
+.mat-mdc-card,
+.mat-mdc-dialog-surface {
+  background: var(--surface-bg) !important;
+  color: var(--app-text) !important;
 }
 
 .fullscreen-date-range-picker .mat-datepicker-content-container,

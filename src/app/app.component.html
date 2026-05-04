@@ -2,9 +2,14 @@
   <aside class="side-menu">
     <div class="menu-header">
       <h1 class="logo">{{ 'APP.TITLE' | translate }}</h1>
-      <button mat-stroked-button class="lang-button" type="button" (click)="toggleLanguage()">
-        {{ getCurrentLanguage() }}
-      </button>
+      <div class="header-actions">
+        <button mat-stroked-button class="lang-button" type="button" (click)="toggleLanguage()">
+          {{ getCurrentLanguage() }}
+        </button>
+        <button mat-stroked-button class="theme-button" type="button" (click)="toggleTheme()">
+          {{ getCurrentTheme() }}
+        </button>
+      </div>
     </div>
     <nav mat-tab-nav-bar [tabPanel]="tabPanel">
       <a mat-tab-link routerLink="/progress" routerLinkActive #rlaProgress="routerLinkActive" [active]="rlaProgress.isActive">{{ 'APP.MENU.PROGRESS' | translate }}</a>
