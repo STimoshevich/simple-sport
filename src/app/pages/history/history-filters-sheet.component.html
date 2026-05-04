@@ -1,0 +1,26 @@
+<h3>{{ 'APP.PAGES.HISTORY.FILTERS' | translate }}</h3>
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>{{ 'APP.PAGES.PROGRESS.DATE_RANGE' | translate }}</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+    <input matStartDate [(ngModel)]="state.startDate" readonly />
+    <input matEndDate [(ngModel)]="state.endDate" readonly />
+  </mat-date-range-input>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker [touchUi]="true"></mat-date-range-picker>
+</mat-form-field>
+
+<mat-checkbox [(ngModel)]="state.showArcived">{{ 'APP.PAGES.HISTORY.SHOW_ARCIVED' | translate }}</mat-checkbox>
+
+<app-custom-list-select
+  [label]="'APP.PAGES.HISTORY.EXERCISES' | translate"
+  [items]="exerciseOptions"
+  [selected]="state.exerciseNames"
+  [multiple]="true"
+  [displayWith]="displayName"
+  (selectionChange)="state.exerciseNames = $event"
+></app-custom-list-select>
+
+<div class="actions">
+  <button mat-button (click)="close()">{{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}</button>
+  <button mat-flat-button color="primary" (click)="apply()">{{ 'APP.PAGES.WORKOUT_DETAIL.SAVE' | translate }}</button>
+</div>

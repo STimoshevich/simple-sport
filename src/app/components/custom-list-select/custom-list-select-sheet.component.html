@@ -1,0 +1,23 @@
+<h3 class="title">Select</h3>
+<div class="sheet-content">
+  <div class="list" #listContainer>
+    @for (item of items; track $index) {
+      <div class="row" #itemRow (click)="toggle(item)">
+        @if (multiple) {
+          <mat-checkbox [checked]="isSelected(item)"></mat-checkbox>
+        }
+        @if (itemTemplate) {
+          <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item, selected: isSelected(item) }"></ng-container>
+        } @else {
+          <span>{{ displayWith(item) }}</span>
+        }
+      </div>
+    }
+  </div>
+</div>
+@if (multiple) {
+  <div class="actions">
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="apply()">Apply</button>
+  </div>
+}

@@ -10,14 +10,7 @@ interface SettingsDialogData {
 @Component({
   standalone: true,
   imports: [MatDialogModule, MatButtonModule],
-  template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
-    <mat-dialog-actions align="start">
-      @for (option of data.options; track option.value) {
-        <button mat-stroked-button (click)="select(option.value)">{{ option.label }}</button>
-      }
-    </mat-dialog-actions>
-  `
+  templateUrl: './settings-select-dialog.component.html'
 })
 export class SettingsSelectDialogComponent {
   constructor(
