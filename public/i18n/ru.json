@@ -17,9 +17,7 @@
         "WEIGHT_CHART": "График веса",
         "DATE_RANGE": "Диапазон дат",
         "SERIES_DONE": "Сделано",
-        "SERIES_PLANNED": "Запланировано",
-        "CHART_VIEW_LINE": "Линия",
-        "CHART_VIEW_BAR": "Колонки"
+        "SERIES_PLANNED": "Запланировано"
       },
       "HISTORY": {
         "TITLE": "Тренировки",
