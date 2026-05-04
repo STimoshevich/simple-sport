@@ -5,7 +5,10 @@ import { connect, disconnect, ECharts, init, use } from 'echarts/core';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import { NgxDaterangepickerBootstrapDirective } from 'ngx-daterangepicker-bootstrap';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractService } from '../../services/training-contract.service';
 
@@ -14,7 +17,7 @@ use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 @Component({
   standalone: true,
   selector: 'app-progress-detail-page',
-  imports: [FormsModule, TranslatePipe, NgxDaterangepickerBootstrapDirective],
+  imports: [FormsModule, TranslatePipe, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule],
   templateUrl: './progress-detail.page.html',
   styleUrls: ['./progress-detail.page.css']
 })
@@ -23,7 +26,7 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   @ViewChild('weightChartContainer', { static: true }) weightChartContainer!: ElementRef<HTMLDivElement>;
 
   trainingName = '';
-  selectedRange = { startDate: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000), endDate: new Date() };
+  selectedRange = { start: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000), end: new Date() };
   private repsChart?: ECharts;
   private weightChart?: ECharts;
   private readonly chartGroupId = 'progress-detail-sync-group';
@@ -84,8 +87,8 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   }
 
   private renderSeriesForSelectedRange(): void {
-    const start = new Date(this.selectedRange.startDate);
-    const end = new Date(this.selectedRange.endDate);
+    const start = new Date(this.selectedRange.start ?? new Date());
+    const end = new Date(this.selectedRange.end ?? new Date());
     const days = Math.max(1, Math.floor((end.getTime() - start.getTime()) / (24 * 60 * 60 * 1000)) + 1);
 
     const series = this.trainingService.getProgressSeriesByName(this.trainingName, days);

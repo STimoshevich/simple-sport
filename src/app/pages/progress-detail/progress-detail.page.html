@@ -2,15 +2,15 @@
   <h2>{{ trainingName }}</h2>
   <p>{{ 'APP.PAGES.PROGRESS.CHART_PLACEHOLDER' | translate }}</p>
 
-  <input
-    class="range-input"
-    type="text"
-    ngxDaterangepickerBootstrap
-    [(ngModel)]="selectedRange"
-    [locale]="{ format: 'YYYY-MM-DD' }"
-    (datesUpdated)="onRangeUpdated()"
-    readonly
-  />
+  <mat-form-field appearance="outline" class="range-input">
+    <mat-label>Date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate [(ngModel)]="selectedRange.start" (dateChange)="onRangeUpdated()" />
+      <input matEndDate [(ngModel)]="selectedRange.end" (dateChange)="onRangeUpdated()" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
 
   <h3>{{ 'APP.PAGES.PROGRESS.REPS_CHART' | translate }}</h3>
   <div #repsChartContainer class="progress-chart" [attr.aria-label]="'APP.PAGES.PROGRESS.CHART_ARIA' | translate"></div>

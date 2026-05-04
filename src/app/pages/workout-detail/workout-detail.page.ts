@@ -2,6 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractRecord } from '../../models/training-contract.model';
 import { TrainingContractService } from '../../services/training-contract.service';
@@ -10,7 +14,7 @@ import { TrainingNameService } from '../../services/training-name.service';
 @Component({
   standalone: true,
   selector: 'app-workout-detail-page',
-  imports: [TranslatePipe, CommonModule, FormsModule],
+  imports: [TranslatePipe, CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './workout-detail.page.html',
   styleUrls: ['./workout-detail.page.css']
 })

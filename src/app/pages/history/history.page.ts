@@ -1,13 +1,17 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractService, TrainingDayRecord } from '../../services/training-contract.service';
 
 @Component({
   standalone: true,
   selector: 'app-history-page',
-  imports: [TranslatePipe, CommonModule, DatePipe, RouterLink],
+  imports: [TranslatePipe, CommonModule, DatePipe, RouterLink, MatButtonModule, MatCheckboxModule, MatCardModule],
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.css']
 })
@@ -38,8 +42,8 @@ export class HistoryPageComponent {
     this.hasMore = this.visibleDays.length < this.allDays.length;
   }
 
-  toggleArcived(event: Event): void {
-    this.showArcived = (event.target as HTMLInputElement).checked;
+  toggleArcived(event: MatCheckboxChange): void {
+    this.showArcived = event.checked;
     this.rebuildFilteredDays();
   }
 
