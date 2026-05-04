@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ECharts, init, use } from 'echarts/core';
+import { connect, disconnect, ECharts, init, use } from 'echarts/core';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -50,6 +50,11 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   selectedRange = { startDate: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000), endDate: new Date() };
   private repsChart?: ECharts;
   private weightChart?: ECharts;
+  private readonly chartGroupId = 'progress-detail-sync-group';
+  private readonly onWindowResize = (): void => {
+    this.repsChart?.resize();
+    this.weightChart?.resize();
+  };
 
   constructor(private readonly route: ActivatedRoute, private readonly trainingService: TrainingContractService) {
     this.trainingName = this.route.snapshot.paramMap.get('name') ?? '';
@@ -58,11 +63,15 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.repsChart = init(this.repsChartContainer.nativeElement);
     this.weightChart = init(this.weightChartContainer.nativeElement);
+    this.bindChartsGroupSync();
     this.bindChartsInteractionSync();
     this.renderSeriesForSelectedRange();
+    window.addEventListener('resize', this.onWindowResize, { passive: true });
   }
 
   ngOnDestroy(): void {
+    disconnect(this.chartGroupId);
+    window.removeEventListener('resize', this.onWindowResize);
     this.repsChart?.dispose();
     this.weightChart?.dispose();
   }
@@ -119,5 +128,12 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
       yAxis: { type: 'value' },
       series: [{ data: series.weights, type: 'line', smooth: true }]
     });
+  }
+  private bindChartsGroupSync(): void {
+    if (!this.repsChart || !this.weightChart) return;
+
+    this.repsChart.group = this.chartGroupId;
+    this.weightChart.group = this.chartGroupId;
+    connect(this.chartGroupId);
   }
 }
