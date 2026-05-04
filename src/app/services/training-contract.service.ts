@@ -3,6 +3,7 @@ import { TrainingContract, TrainingContractRecord } from '../models/training-con
 import { TrainingNameService } from './training-name.service';
 
 export interface TrainingDayRecord {
+  groupId: string;
   date: string;
   trainings: TrainingContractRecord[];
 }
@@ -26,8 +27,10 @@ export class TrainingContractService {
   }
 
   addEmptyForToday(): TrainingContractRecord {
+    const groupId = this.generateGroupId();
     return this.add({
       name: '',
+      group_id: groupId,
       date: new Date().toISOString()
     });
   }
@@ -52,19 +55,31 @@ export class TrainingContractService {
   }
 
   getTrainingDays(): TrainingDayRecord[] {
-    const grouped = new Map<string, TrainingContractRecord[]>();
+    const grouped = new Map<string, TrainingDayRecord>();
     for (const contract of this.contracts) {
       const dayKey = contract.date.slice(0, 10);
-      if (!grouped.has(dayKey)) grouped.set(dayKey, []);
-      grouped.get(dayKey)?.push(contract);
+      const groupId = contract.group_id ?? dayKey;
+      if (!grouped.has(groupId)) {
+        grouped.set(groupId, {
+          groupId,
+          date: dayKey,
+          trainings: []
+        });
+      }
+      grouped.get(groupId)?.trainings.push(contract);
     }
 
-    return Array.from(grouped.entries())
-      .map(([date, trainings]) => ({
-        date,
-        trainings: [...trainings].sort((a, b) => (a.date < b.date ? 1 : -1))
+    return Array.from(grouped.values())
+      .map((group) => ({
+        ...group,
+        trainings: [...group.trainings].sort((a, b) => (a.date < b.date ? 1 : -1))
       }))
-      .sort((a, b) => (a.date < b.date ? 1 : -1));
+      .sort((a, b) => {
+        if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+        const aLatest = a.trainings[0]?.date ?? '';
+        const bLatest = b.trainings[0]?.date ?? '';
+        return aLatest < bLatest ? 1 : -1;
+      });
   }
 
   getProgressSeriesByName(name: string, days = 20): { dates: string[]; reps: number[]; weights: number[] } {
@@ -99,15 +114,18 @@ export class TrainingContractService {
     for (let dayOffset = 0; dayOffset < 40; dayOffset += 1) {
       const date = new Date();
       date.setDate(date.getDate() - dayOffset);
+      const dayKey = date.toISOString().slice(0, 10);
       names.forEach((name, index) => this.add({
         name,
         reps_count: 10 + index * 5 + (dayOffset % 4),
         weeight: name === 'Bench Press' ? 40 + (dayOffset % 6) * 2 : undefined,
         arcived: dayOffset > 20 && index === 2,
+        group_id: dayKey,
         date: date.toISOString()
       }));
     }
   }
 
+  private generateGroupId(): string { return `group_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`; }
   private generateId(): string { return `training_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`; }
 }
