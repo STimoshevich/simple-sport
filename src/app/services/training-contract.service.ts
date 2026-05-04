@@ -55,7 +55,7 @@ export class TrainingContractService {
     return Array.from(grouped.entries()).map(([date, trainings]) => ({ date, trainings })).sort((a, b) => (a.date < b.date ? 1 : -1));
   }
 
-  getProgressSeriesByName(name: string, days = 20): { dates: string[]; reps: number[] } {
+  getProgressSeriesByName(name: string, days = 20): { dates: string[]; reps: number[]; weights: number[] } {
     const end = new Date();
     const range: string[] = [];
     for (let i = days - 1; i >= 0; i -= 1) {
@@ -64,16 +64,20 @@ export class TrainingContractService {
       range.push(d.toISOString().slice(0, 10));
     }
 
-    const byDate = new Map<string, number>();
+    const repsByDate = new Map<string, number>();
+    const weightsByDate = new Map<string, number>();
+
     for (const c of this.contracts) {
       if (c.name !== name) continue;
       const day = c.date.slice(0, 10);
-      byDate.set(day, (byDate.get(day) ?? 0) + (c.reps_count ?? 0));
+      repsByDate.set(day, (repsByDate.get(day) ?? 0) + (c.reps_count ?? 0));
+      weightsByDate.set(day, (weightsByDate.get(day) ?? 0) + (c.weeight ?? 0));
     }
 
     return {
       dates: range.map((d) => d.slice(5)),
-      reps: range.map((d) => byDate.get(d) ?? 0)
+      reps: range.map((d) => repsByDate.get(d) ?? 0),
+      weights: range.map((d) => weightsByDate.get(d) ?? 0)
     };
   }
 

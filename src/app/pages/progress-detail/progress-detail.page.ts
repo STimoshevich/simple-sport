@@ -30,7 +30,11 @@ use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
         readonly
       />
 
-      <div #chartContainer class="progress-chart" [attr.aria-label]="'APP.PAGES.PROGRESS.CHART_ARIA' | translate"></div>
+      <h3>{{ 'APP.PAGES.PROGRESS.REPS_CHART' | translate }}</h3>
+      <div #repsChartContainer class="progress-chart" [attr.aria-label]="'APP.PAGES.PROGRESS.CHART_ARIA' | translate"></div>
+
+      <h3>{{ 'APP.PAGES.PROGRESS.WEIGHT_CHART' | translate }}</h3>
+      <div #weightChartContainer class="progress-chart"></div>
     </section>
   `,
   styles: [
@@ -39,23 +43,27 @@ use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
   ]
 })
 export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('repsChartContainer', { static: true }) repsChartContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('weightChartContainer', { static: true }) weightChartContainer!: ElementRef<HTMLDivElement>;
 
   trainingName = '';
   selectedRange = { startDate: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000), endDate: new Date() };
-  private chart?: ECharts;
+  private repsChart?: ECharts;
+  private weightChart?: ECharts;
 
   constructor(private readonly route: ActivatedRoute, private readonly trainingService: TrainingContractService) {
     this.trainingName = this.route.snapshot.paramMap.get('name') ?? '';
   }
 
   ngAfterViewInit(): void {
-    this.chart = init(this.chartContainer.nativeElement);
+    this.repsChart = init(this.repsChartContainer.nativeElement);
+    this.weightChart = init(this.weightChartContainer.nativeElement);
     this.renderSeriesForSelectedRange();
   }
 
   ngOnDestroy(): void {
-    this.chart?.dispose();
+    this.repsChart?.dispose();
+    this.weightChart?.dispose();
   }
 
   onRangeUpdated(): void {
@@ -68,12 +76,20 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
     const days = Math.max(1, Math.floor((end.getTime() - start.getTime()) / (24 * 60 * 60 * 1000)) + 1);
 
     const series = this.trainingService.getProgressSeriesByName(this.trainingName, days);
-    this.chart?.setOption({
+    this.repsChart?.setOption({
       grid: { left: 16, right: 16, top: 24, bottom: 24, containLabel: true },
       tooltip: { trigger: 'axis' },
       xAxis: { type: 'category', data: series.dates },
       yAxis: { type: 'value' },
       series: [{ data: series.reps, type: 'line', smooth: true }]
+    });
+
+    this.weightChart?.setOption({
+      grid: { left: 16, right: 16, top: 24, bottom: 24, containLabel: true },
+      tooltip: { trigger: 'axis' },
+      xAxis: { type: 'category', data: series.dates },
+      yAxis: { type: 'value' },
+      series: [{ data: series.weights, type: 'line', smooth: true }]
     });
   }
 }
