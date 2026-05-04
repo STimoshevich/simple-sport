@@ -32,7 +32,8 @@
       },
       "WORKOUT_DETAIL": {
         "TITLE": "Training",
-        "DESCRIPTION": "Empty training detail page."
+        "DESCRIPTION": "Edit training exercises.",
+        "VALIDATION": "Fill at least weight or reps."
       }
     }
   }

@@ -18,6 +18,9 @@ export class TrainingContractService {
 
   getAll(): TrainingContractRecord[] { return [...this.contracts]; }
   getById(id: string): TrainingContractRecord | undefined { return this.contracts.find((c) => c.id === id); }
+  getByGroupId(groupId: string): TrainingContractRecord[] {
+    return this.contracts.filter((c) => (c.group_id ?? c.date.slice(0, 10)) === groupId);
+  }
 
   add(contract: TrainingContract): TrainingContractRecord {
     const record: TrainingContractRecord = { arcived: false, ...contract, id: this.generateId() };
