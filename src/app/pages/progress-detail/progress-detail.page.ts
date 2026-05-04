@@ -58,6 +58,7 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.repsChart = init(this.repsChartContainer.nativeElement);
     this.weightChart = init(this.weightChartContainer.nativeElement);
+    this.bindChartsInteractionSync();
     this.renderSeriesForSelectedRange();
   }
 
@@ -68,6 +69,33 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
 
   onRangeUpdated(): void {
     this.renderSeriesForSelectedRange();
+  }
+
+
+
+  private bindChartsInteractionSync(): void {
+    if (!this.repsChart || !this.weightChart) return;
+
+    let syncing = false;
+    const syncHover = (source: ECharts, target: ECharts, dataIndex: number): void => {
+      if (syncing) return;
+      syncing = true;
+      source.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex });
+      source.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex });
+      target.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex });
+      target.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex });
+      syncing = false;
+    };
+
+    this.repsChart.on('click', (params: { dataIndex?: number }) => {
+      if (typeof params.dataIndex !== 'number') return;
+      syncHover(this.repsChart as ECharts, this.weightChart as ECharts, params.dataIndex);
+    });
+
+    this.weightChart.on('click', (params: { dataIndex?: number }) => {
+      if (typeof params.dataIndex !== 'number') return;
+      syncHover(this.weightChart as ECharts, this.repsChart as ECharts, params.dataIndex);
+    });
   }
 
   private renderSeriesForSelectedRange(): void {
