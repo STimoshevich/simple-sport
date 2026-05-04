@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SqliteStorageService } from './sqlite-storage.service';
 
 export type AppTheme = 'dark' | 'light';
 
@@ -7,9 +8,8 @@ export class ThemeService {
   private readonly storageKey = 'simple-sport-theme';
   private currentTheme: AppTheme = 'dark';
 
-  constructor() {
-    const saved = localStorage.getItem(this.storageKey) as AppTheme | null;
-    this.currentTheme = saved === 'light' ? 'light' : 'dark';
+  constructor(private readonly sqliteStorage: SqliteStorageService) {
+    this.restoreTheme();
     this.applyTheme();
   }
 
@@ -19,7 +19,13 @@ export class ThemeService {
 
   toggleTheme(): void {
     this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem(this.storageKey, this.currentTheme);
+    void this.sqliteStorage.setItem(this.storageKey, this.currentTheme);
+    this.applyTheme();
+  }
+
+  private async restoreTheme(): Promise<void> {
+    const saved = (await this.sqliteStorage.getItem(this.storageKey)) as AppTheme | null;
+    this.currentTheme = saved === 'light' ? 'light' : 'dark';
     this.applyTheme();
   }
 
