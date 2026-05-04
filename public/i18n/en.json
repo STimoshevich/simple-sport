@@ -17,7 +17,9 @@
         "WEIGHT_CHART": "Weight chart",
         "DATE_RANGE": "Date range",
         "SERIES_DONE": "Done",
-        "SERIES_PLANNED": "Planned"
+        "SERIES_PLANNED": "Planned",
+        "CHART_VIEW_LINE": "Line",
+        "CHART_VIEW_BAR": "Column"
       },
       "HISTORY": {
         "TITLE": "Trainings",

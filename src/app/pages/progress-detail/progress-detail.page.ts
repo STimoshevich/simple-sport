@@ -9,6 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractService } from '../../services/training-contract.service';
 import { TranslateService } from '../../services/translate.service';
@@ -18,7 +19,7 @@ use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 @Component({
   standalone: true,
   selector: 'app-progress-detail-page',
-  imports: [FormsModule, TranslatePipe, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule],
+  imports: [FormsModule, TranslatePipe, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatButtonToggleModule],
   templateUrl: './progress-detail.page.html',
   styleUrls: ['./progress-detail.page.css']
 })
@@ -27,6 +28,7 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   @ViewChild('weightChartContainer', { static: true }) weightChartContainer!: ElementRef<HTMLDivElement>;
 
   trainingName = '';
+  chartView: 'line' | 'bar' = 'line';
   selectedRange = { start: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000), end: new Date() };
   private repsChart?: ECharts;
   private weightChart?: ECharts;
@@ -61,6 +63,11 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   }
 
   onRangeUpdated(): void {
+    this.renderSeriesForSelectedRange();
+  }
+
+  setChartView(view: 'line' | 'bar'): void {
+    this.chartView = view;
     this.renderSeriesForSelectedRange();
   }
 
@@ -103,8 +110,8 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
       xAxis: { type: 'category', data: series.dates },
       yAxis: { type: 'value' },
       series: [
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.reps, type: 'line', smooth: true },
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedReps, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.reps, type: this.chartView, smooth: this.chartView === 'line' },
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedReps, type: this.chartView, smooth: this.chartView === 'line', lineStyle: { type: 'dashed' } }
       ]
     });
 
@@ -114,8 +121,8 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
       xAxis: { type: 'category', data: series.dates },
       yAxis: { type: 'value' },
       series: [
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.weights, type: 'line', smooth: true },
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedWeights, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.weights, type: this.chartView, smooth: this.chartView === 'line' },
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedWeights, type: this.chartView, smooth: this.chartView === 'line', lineStyle: { type: 'dashed' } }
       ]
     });
   }
