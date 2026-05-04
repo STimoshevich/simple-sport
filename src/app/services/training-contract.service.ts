@@ -25,6 +25,13 @@ export class TrainingContractService {
     return record;
   }
 
+  addEmptyForToday(): TrainingContractRecord {
+    return this.add({
+      name: '',
+      date: new Date().toISOString()
+    });
+  }
+
   update(id: string, payload: Partial<TrainingContract>): TrainingContractRecord | undefined {
     const existing = this.getById(id);
     if (!existing) return undefined;
