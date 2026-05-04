@@ -23,7 +23,8 @@
     "zone.js": "^0.14.10",
     "@capacitor/core": "^6.1.2",
     "echarts": "^5.5.1",
-    "ngx-daterangepicker-bootstrap": "^1.0.0"
+    "ngx-daterangepicker-bootstrap": "21.5.0",
+    "dayjs": "^1.11.13"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.0",
