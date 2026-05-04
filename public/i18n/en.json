@@ -6,6 +6,13 @@
       "HISTORY": "Trainings",
       "CONFIGURATION": "Configuration"
     },
+    "SETTINGS": {
+      "TITLE": "Settings",
+      "LANGUAGE": "Language",
+      "THEME": "Theme",
+      "DARK": "Dark",
+      "LIGHT": "Light"
+    },
     "PAGES": {
       "PROGRESS": {
         "TITLE": "Progress",

@@ -1,20 +1,24 @@
 <div class="layout">
+  <mat-drawer-container class="drawer-container">
+    <mat-drawer #settingsDrawer position="end" mode="over">
+      <div class="drawer-content">
+        <button mat-stroked-button (click)="openLanguagePopup()">{{ 'APP.SETTINGS.LANGUAGE' | translate }}</button>
+        <button mat-stroked-button (click)="openThemePopup()">{{ 'APP.SETTINGS.THEME' | translate }}</button>
+      </div>
+    </mat-drawer>
+
   <aside class="side-menu">
     <div class="menu-header">
       <h1 class="logo">{{ 'APP.TITLE' | translate }}</h1>
       <div class="header-actions">
-        <button mat-stroked-button class="lang-button" type="button" (click)="toggleLanguage()">
-          {{ getCurrentLanguage() }}
-        </button>
-        <button mat-stroked-button class="theme-button" type="button" (click)="toggleTheme()">
-          {{ getCurrentTheme() }}
+        <button mat-stroked-button type="button" (click)="settingsDrawer.toggle()">
+          {{ 'APP.SETTINGS.TITLE' | translate }}
         </button>
       </div>
     </div>
     <nav mat-tab-nav-bar [tabPanel]="tabPanel">
       <a mat-tab-link routerLink="/progress" routerLinkActive #rlaProgress="routerLinkActive" [active]="rlaProgress.isActive">{{ 'APP.MENU.PROGRESS' | translate }}</a>
       <a mat-tab-link routerLink="/history" routerLinkActive #rlaHistory="routerLinkActive" [active]="rlaHistory.isActive">{{ 'APP.MENU.HISTORY' | translate }}</a>
-      <a mat-tab-link routerLink="/configuration" routerLinkActive #rlaConfig="routerLinkActive" [active]="rlaConfig.isActive">{{ 'APP.MENU.CONFIGURATION' | translate }}</a>
     </nav>
     <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
   </aside>
@@ -22,4 +26,5 @@
   <main class="content">
     <router-outlet></router-outlet>
   </main>
+  </mat-drawer-container>
 </div>
