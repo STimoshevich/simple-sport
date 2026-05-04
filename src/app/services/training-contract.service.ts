@@ -19,7 +19,7 @@ export class TrainingContractService {
   getById(id: string): TrainingContractRecord | undefined { return this.contracts.find((c) => c.id === id); }
 
   add(contract: TrainingContract): TrainingContractRecord {
-    const record: TrainingContractRecord = { ...contract, id: this.generateId() };
+    const record: TrainingContractRecord = { arcived: false, ...contract, id: this.generateId() };
     this.trainingNameService.ensureName(record.name);
     this.contracts = [...this.contracts, record];
     return record;
@@ -98,6 +98,7 @@ export class TrainingContractService {
         name,
         reps_count: 10 + index * 5 + (dayOffset % 4),
         weeight: name === 'Bench Press' ? 40 + (dayOffset % 6) * 2 : undefined,
+        arcived: dayOffset > 20 && index === 2,
         date: date.toISOString()
       }));
     }

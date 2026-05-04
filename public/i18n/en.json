@@ -21,6 +21,7 @@
         "DESCRIPTION": "User training list is shown here.",
         "LOADING_MORE": "Loading 5 more days...",
         "NO_MORE": "No more data",
+        "SHOW_ARCIVED": "Show archived",
         "EMPTY_NAME": "New training",
         "REPS": "reps",
         "KG": "kg"
