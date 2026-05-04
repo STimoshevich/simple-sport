@@ -3,7 +3,7 @@
   <p>{{ 'APP.PAGES.PROGRESS.CHART_PLACEHOLDER' | translate }}</p>
 
   <mat-form-field appearance="outline" class="range-input">
-    <mat-label>Date range</mat-label>
+    <mat-label>{{ 'APP.PAGES.PROGRESS.DATE_RANGE' | translate }}</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input matStartDate [(ngModel)]="selectedRange.start" (dateChange)="onRangeUpdated()" readonly />
       <input matEndDate [(ngModel)]="selectedRange.end" (dateChange)="onRangeUpdated()" readonly />

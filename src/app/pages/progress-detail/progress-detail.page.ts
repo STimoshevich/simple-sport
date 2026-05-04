@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractService } from '../../services/training-contract.service';
+import { TranslateService } from '../../services/translate.service';
 
 use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
@@ -35,7 +36,11 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
     this.weightChart?.resize();
   };
 
-  constructor(private readonly route: ActivatedRoute, private readonly trainingService: TrainingContractService) {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly trainingService: TrainingContractService,
+    private readonly translateService: TranslateService
+  ) {
     this.trainingName = this.route.snapshot.paramMap.get('name') ?? '';
   }
 
@@ -98,8 +103,8 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
       xAxis: { type: 'category', data: series.dates },
       yAxis: { type: 'value' },
       series: [
-        { name: 'Done', data: series.reps, type: 'line', smooth: true },
-        { name: 'Planned', data: series.plannedReps, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.reps, type: 'line', smooth: true },
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedReps, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
       ]
     });
 
@@ -109,8 +114,8 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
       xAxis: { type: 'category', data: series.dates },
       yAxis: { type: 'value' },
       series: [
-        { name: 'Done', data: series.weights, type: 'line', smooth: true },
-        { name: 'Planned', data: series.plannedWeights, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.weights, type: 'line', smooth: true },
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedWeights, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
       ]
     });
   }

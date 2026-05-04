@@ -14,7 +14,10 @@
         "EMPTY_NAMES": "No training names yet. Add your first training.",
         "CHART_PLACEHOLDER": "Chart for the last 20 days.",
         "REPS_CHART": "Count chart",
-        "WEIGHT_CHART": "Weight chart"
+        "WEIGHT_CHART": "Weight chart",
+        "DATE_RANGE": "Date range",
+        "SERIES_DONE": "Done",
+        "SERIES_PLANNED": "Planned"
       },
       "HISTORY": {
         "TITLE": "Trainings",
@@ -23,6 +26,7 @@
         "NO_MORE": "No more data",
         "SHOW_ARCIVED": "Show archived",
         "EMPTY_NAME": "New training",
+        "PLAN_PREFIX": "plan:",
         "REPS": "reps",
         "KG": "kg"
       },
@@ -33,7 +37,12 @@
       "WORKOUT_DETAIL": {
         "TITLE": "Training",
         "DESCRIPTION": "Edit training exercises.",
-        "VALIDATION": "Fill at least weight or reps."
+        "VALIDATION": "Fill at least weight or reps.",
+        "EXERCISE": "Exercise",
+        "WEIGHT": "Weight",
+        "REPS": "Reps",
+        "PLANNED_WEIGHT": "Planned weight",
+        "PLANNED_REPS": "Planned reps"
       }
     }
   }
