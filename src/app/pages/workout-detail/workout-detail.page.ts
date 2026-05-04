@@ -12,7 +12,6 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractRecord } from '../../models/training-contract.model';
 import { TrainingContractService } from '../../services/training-contract.service';
 import { TrainingNameService } from '../../services/training-name.service';
-import { TranslateService } from '../../services/translate.service';
 
 @Component({
   standalone: true,
@@ -31,8 +30,7 @@ export class WorkoutDetailPageComponent {
     private readonly route: ActivatedRoute,
     private readonly trainingContractService: TrainingContractService,
     private readonly trainingNameService: TrainingNameService,
-    private readonly location: Location,
-    private readonly translateService: TranslateService
+    private readonly location: Location
   ) {
     const groupId = this.route.snapshot.paramMap.get('id') ?? '';
     this.workouts = this.trainingContractService.getByGroupId(groupId);
@@ -69,10 +67,5 @@ export class WorkoutDetailPageComponent {
 
   cancel(): void {
     this.location.back();
-  }
-
-  canLeave(): boolean {
-    if (!this.hasUnsavedChanges) return true;
-    return window.confirm(this.translateService.translate('APP.PAGES.WORKOUT_DETAIL.UNSAVED_CONFIRM'));
   }
 }

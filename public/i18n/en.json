@@ -45,7 +45,9 @@
         "PLANNED_REPS": "Planned reps",
         "SAVE": "Save",
         "CANCEL": "Cancel",
-        "UNSAVED_CONFIRM": "You have unsaved changes. Leave this page?"
+        "UNSAVED_TITLE": "Unsaved changes",
+        "UNSAVED_CONFIRM": "You have unsaved changes. Leave this page?",
+        "LEAVE": "Leave"
       }
     }
   }
