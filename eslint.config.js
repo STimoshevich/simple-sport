@@ -1,4 +1,5 @@
-const tseslint = require('typescript-eslint');
+const tseslintPlugin = require('@typescript-eslint/eslint-plugin');
+const tseslintParser = require('@typescript-eslint/parser');
 const angular = require('@angular-eslint/eslint-plugin');
 const angularTemplate = require('@angular-eslint/eslint-plugin-template');
 const angularParser = require('@angular-eslint/template-parser');
@@ -8,7 +9,7 @@ module.exports = [
   {
     files: ['**/*.ts'],
     languageOptions: {
-      parser: tseslint.parser,
+      parser: tseslintParser,
       parserOptions: {
         project: ['./tsconfig.json'],
         tsconfigRootDir: __dirname
@@ -16,11 +17,10 @@ module.exports = [
     },
     plugins: {
       '@angular-eslint': angular,
-      '@typescript-eslint': tseslint.plugin
+      '@typescript-eslint': tseslintPlugin
     },
     rules: {
-      ...tseslint.configs.strictTypeChecked[0].rules,
-      ...tseslint.configs.stylisticTypeChecked[0].rules,
+      ...tseslintPlugin.configs['recommended-type-checked'].rules,
       '@angular-eslint/component-class-suffix': 'error',
       '@angular-eslint/directive-class-suffix': 'error',
       '@angular-eslint/no-empty-lifecycle-method': 'error'
