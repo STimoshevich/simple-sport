@@ -1,11 +1,11 @@
 <section class="page history-page" (scroll)="onScroll($event)">
   <div class="history-header">
     <h2>{{ 'APP.PAGES.HISTORY.TITLE' | translate }}</h2>
-    <button mat-mini-fab class="add-button" type="button" (click)="addTraining()">+</button>
+    <div class="header-actions">
+      <button mat-stroked-button type="button" (click)="openFilters()">{{ 'APP.PAGES.HISTORY.FILTERS' | translate }}</button>
+      <button mat-mini-fab class="add-button" type="button" (click)="addTraining()">+</button>
+    </div>
   </div>
-  <mat-checkbox class="archive-toggle" [checked]="showArcived" (change)="toggleArcived($event)">
-    {{ 'APP.PAGES.HISTORY.SHOW_ARCIVED' | translate }}
-  </mat-checkbox>
   <p>{{ 'APP.PAGES.HISTORY.DESCRIPTION' | translate }}</p>
 
   @for (day of filteredDays; track day.groupId) {

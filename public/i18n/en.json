@@ -29,6 +29,8 @@
       "HISTORY": {
         "TITLE": "Trainings",
         "DESCRIPTION": "User training list is shown here.",
+        "FILTERS": "Filters",
+        "EXERCISES": "Exercise types",
         "LOADING_MORE": "Loading 5 more days...",
         "NO_MORE": "No more data",
         "SHOW_ARCIVED": "Show archived",

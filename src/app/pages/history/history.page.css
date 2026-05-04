@@ -1,5 +1,6 @@
 .history-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .history-header h2 { margin: 0; }
+.header-actions { display: flex; align-items: center; gap: 8px; }
 .add-button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(56,189,248,.6); background: rgba(2,132,199,.18); color: #e2e8f0; font-size: 22px; line-height: 1; }
 .archive-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #cbd5e1; margin: 8px 0; }
 .day-card-link { text-decoration: none; color: inherit; display: block; margin-bottom: 12px; }

@@ -2,16 +2,16 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractService, TrainingDayRecord } from '../../services/training-contract.service';
+import { HistoryFiltersSheetComponent, HistoryFiltersState } from './history-filters-sheet.component';
 
 @Component({
   standalone: true,
   selector: 'app-history-page',
-  imports: [TranslatePipe, CommonModule, DatePipe, RouterLink, MatButtonModule, MatCheckboxModule, MatCardModule],
+  imports: [TranslatePipe, CommonModule, DatePipe, RouterLink, MatButtonModule, MatCardModule],
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.css']
 })
@@ -22,9 +22,9 @@ export class HistoryPageComponent {
   visibleDays: TrainingDayRecord[] = [];
   filteredDays: TrainingDayRecord[] = [];
   hasMore = true;
-  showArcived = false;
+  filters: HistoryFiltersState = { showArcived: false, exerciseNames: [] };
 
-  constructor(private readonly trainingContractService: TrainingContractService) {
+  constructor(private readonly trainingContractService: TrainingContractService, private readonly bottomSheet: MatBottomSheet) {
     this.loadMore();
   }
 
@@ -42,9 +42,39 @@ export class HistoryPageComponent {
     this.hasMore = this.visibleDays.length < this.allDays.length;
   }
 
-  toggleArcived(event: MatCheckboxChange): void {
-    this.showArcived = event.checked;
-    this.rebuildFilteredDays();
+  openFilters(): void {
+    const exerciseOptions = this.trainingContractService.getTrainingNames();
+    this.bottomSheet.open(HistoryFiltersSheetComponent, { data: { state: this.filters, exerciseOptions } })
+      .afterDismissed()
+      .subscribe((value?: HistoryFiltersState) => {
+        if (!value) return;
+        this.filters = value;
+        this.rebuildFilteredDays();
+      });
+  }
+
+  private isInSelectedDateRange(date: string): boolean {
+    const day = new Date(date);
+    if (this.filters.startDate && day < new Date(this.filters.startDate)) return false;
+    if (this.filters.endDate && day > new Date(this.filters.endDate)) return false;
+    return true;
+  }
+
+  private hasSelectedExercise(name: string): boolean {
+    if (!this.filters.exerciseNames.length) return true;
+    return this.filters.exerciseNames.includes(name);
+  }
+
+  private rebuildFilteredDays(): void {
+    this.filteredDays = this.visibleDays
+      .filter((day) => this.isInSelectedDateRange(day.date))
+      .map((day) => ({
+        ...day,
+        trainings: day.trainings.filter((training) =>
+          (this.filters.showArcived || !training.arcived) && this.hasSelectedExercise(training.name)
+        )
+      }))
+      .filter((day) => day.trainings.length > 0);
   }
 
   private loadMore(): void {
@@ -52,14 +82,5 @@ export class HistoryPageComponent {
     this.visibleDays = [...this.visibleDays, ...next];
     this.rebuildFilteredDays();
     this.hasMore = this.visibleDays.length < this.allDays.length;
-  }
-
-  private rebuildFilteredDays(): void {
-    this.filteredDays = this.visibleDays
-      .map((day) => ({
-        ...day,
-        trainings: day.trainings.filter((training) => this.showArcived || !training.arcived)
-      }))
-      .filter((day) => day.trainings.length > 0);
   }
 }
