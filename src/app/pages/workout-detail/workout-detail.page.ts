@@ -6,17 +6,17 @@ import { Location } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TrainingContractRecord } from '../../models/training-contract.model';
 import { TrainingContractService } from '../../services/training-contract.service';
 import { TrainingNameService } from '../../services/training-name.service';
+import { CustomListSelectComponent } from '../../components/custom-list-select/custom-list-select.component';
 
 @Component({
   standalone: true,
   selector: 'app-workout-detail-page',
-  imports: [TranslatePipe, CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [TranslatePipe, CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, CustomListSelectComponent],
   templateUrl: './workout-detail.page.html',
   styleUrls: ['./workout-detail.page.css']
 })
@@ -25,6 +25,7 @@ export class WorkoutDetailPageComponent {
   availableNames: string[] = [];
   validationErrorById: Record<string, boolean> = {};
   hasUnsavedChanges = false;
+  readonly displayName = (value: string): string => value;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -39,6 +40,11 @@ export class WorkoutDetailPageComponent {
 
   onNameChange(workout: TrainingContractRecord): void {
     this.hasUnsavedChanges = true;
+  }
+
+  onExerciseSelected(workout: TrainingContractRecord, selected: string[]): void {
+    workout.name = selected[0] ?? workout.name;
+    this.onNameChange(workout);
   }
 
   onMetricsChange(workout: TrainingContractRecord): void {

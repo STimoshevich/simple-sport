@@ -4,14 +4,14 @@
 
   @for (workout of workouts; track workout.id) {
   <mat-card class="exercise-card">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'APP.PAGES.WORKOUT_DETAIL.EXERCISE' | translate }}</mat-label>
-      <mat-select [(ngModel)]="workout.name" (ngModelChange)="onNameChange(workout)">
-        @for (name of availableNames; track name) {
-          <mat-option [value]="name">{{ name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <app-custom-list-select
+      [label]="'APP.PAGES.WORKOUT_DETAIL.EXERCISE' | translate"
+      [items]="availableNames"
+      [selected]="workout.name ? [workout.name] : []"
+      [multiple]="false"
+      [displayWith]="displayName"
+      (selectionChange)="onExerciseSelected(workout, $event)"
+    ></app-custom-list-select>
 
     <mat-form-field appearance="outline">
       <mat-label>{{ 'APP.PAGES.WORKOUT_DETAIL.WEIGHT' | translate }}</mat-label>
