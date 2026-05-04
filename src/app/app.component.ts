@@ -4,6 +4,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { TranslateService } from './services/translate.service';
 import { ThemeService } from './services/theme.service';
@@ -12,7 +13,7 @@ import { SettingsSelectDialogComponent } from './dialogs/settings-select-dialog.
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe, MatTabsModule, MatButtonModule, MatSidenavModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe, MatTabsModule, MatButtonModule, MatSidenavModule, MatIconModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

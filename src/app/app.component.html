@@ -9,11 +9,13 @@
 
   <aside class="side-menu">
     <div class="menu-header">
-      <h1 class="logo">{{ 'APP.TITLE' | translate }}</h1>
-      <div class="header-actions">
-        <button mat-stroked-button type="button" (click)="settingsDrawer.toggle()">
-          {{ 'APP.SETTINGS.TITLE' | translate }}
+      <div class="logo-wrap">
+        <button mat-icon-button type="button" (click)="settingsDrawer.toggle()" aria-label="menu">
+          <mat-icon>menu</mat-icon>
         </button>
+        <h1 class="logo">{{ 'APP.TITLE' | translate }}</h1>
+      </div>
+      <div class="header-actions">
       </div>
     </div>
     <nav mat-tab-nav-bar [tabPanel]="tabPanel">

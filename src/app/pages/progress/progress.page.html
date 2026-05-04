@@ -2,13 +2,15 @@
   <h2>{{ 'APP.PAGES.PROGRESS.TITLE' | translate }}</h2>
   <p>{{ 'APP.PAGES.PROGRESS.DESCRIPTION' | translate }}</p>
 
-  <ul class="name-list" *ngIf="names.length; else emptyState">
-    <li *ngFor="let name of names">
-      <a [routerLink]="['/progress', name]">{{ name }}</a>
-    </li>
+  @if (names.length) {
+  <ul class="name-list">
+    @for (name of names; track name) {
+      <li>
+        <a [routerLink]="['/progress', name]">{{ name }}</a>
+      </li>
+    }
   </ul>
-
-  <ng-template #emptyState>
+  } @else {
     <p>{{ 'APP.PAGES.PROGRESS.EMPTY_NAMES' | translate }}</p>
-  </ng-template>
+  }
 </section>

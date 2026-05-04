@@ -2,11 +2,14 @@
   <h2>{{ 'APP.PAGES.WORKOUT_DETAIL.TITLE' | translate }}</h2>
   <p>{{ 'APP.PAGES.WORKOUT_DETAIL.DESCRIPTION' | translate }}</p>
 
-  <mat-card class="exercise-card" *ngFor="let workout of workouts">
+  @for (workout of workouts; track workout.id) {
+  <mat-card class="exercise-card">
     <mat-form-field appearance="outline">
       <mat-label>{{ 'APP.PAGES.WORKOUT_DETAIL.EXERCISE' | translate }}</mat-label>
       <mat-select [(ngModel)]="workout.name" (ngModelChange)="onNameChange(workout)">
-        <mat-option *ngFor="let name of availableNames" [value]="name">{{ name }}</mat-option>
+        @for (name of availableNames; track name) {
+          <mat-option [value]="name">{{ name }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
@@ -27,10 +30,13 @@
       <input matInput type="number" [(ngModel)]="workout.plannedRepls" (ngModelChange)="onMetricsChange(workout)" />
     </mat-form-field>
 
-    <small class="error" *ngIf="validationErrorById[workout.id]">
+    @if (validationErrorById[workout.id]) {
+    <small class="error">
       {{ 'APP.PAGES.WORKOUT_DETAIL.VALIDATION' | translate }}
     </small>
+    }
   </mat-card>
+  }
 
   <div class="actions sticky-actions">
     <button mat-flat-button color="primary" (click)="save()">{{ 'APP.PAGES.WORKOUT_DETAIL.SAVE' | translate }}</button>

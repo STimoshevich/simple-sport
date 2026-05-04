@@ -8,20 +8,27 @@
   </mat-checkbox>
   <p>{{ 'APP.PAGES.HISTORY.DESCRIPTION' | translate }}</p>
 
-  <a class="day-card-link" *ngFor="let day of filteredDays" [routerLink]="['/history/workout', day.groupId]">
+  @for (day of filteredDays; track day.groupId) {
+  <a class="day-card-link" [routerLink]="['/history/workout', day.groupId]">
     <mat-card class="day-card">
       <h3>{{ day.date | date: 'dd.MM.yyyy' }}</h3>
 
-      <div class="workout-card" [class.workout-card-arcived]="workout.arcived" *ngFor="let workout of day.trainings">
+      @for (workout of day.trainings; track workout.id) {
+      <div class="workout-card" [class.workout-card-arcived]="workout.arcived">
         <strong>{{ workout.name || ('APP.PAGES.HISTORY.EMPTY_NAME' | translate) }}</strong>
         <span>{{ workout.reps_count }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>
-        <span *ngIf="workout.weeight">{{ workout.weeight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>
-        <span *ngIf="workout.plannedRepls">{{ 'APP.PAGES.HISTORY.PLAN_PREFIX' | translate }} {{ workout.plannedRepls }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>
-        <span *ngIf="workout.plannedWeight">{{ 'APP.PAGES.HISTORY.PLAN_PREFIX' | translate }} {{ workout.plannedWeight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>
+        @if (workout.weeight) {<span>{{ workout.weeight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>}
+        @if (workout.plannedRepls) {<span>{{ 'APP.PAGES.HISTORY.PLAN_PREFIX' | translate }} {{ workout.plannedRepls }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>}
+        @if (workout.plannedWeight) {<span>{{ 'APP.PAGES.HISTORY.PLAN_PREFIX' | translate }} {{ workout.plannedWeight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>}
       </div>
+      }
     </mat-card>
   </a>
+  }
 
-  <p class="loading" *ngIf="hasMore">{{ 'APP.PAGES.HISTORY.LOADING_MORE' | translate }}</p>
-  <p class="loading" *ngIf="!hasMore">{{ 'APP.PAGES.HISTORY.NO_MORE' | translate }}</p>
+  @if (hasMore) {
+    <p class="loading">{{ 'APP.PAGES.HISTORY.LOADING_MORE' | translate }}</p>
+  } @else {
+    <p class="loading">{{ 'APP.PAGES.HISTORY.NO_MORE' | translate }}</p>
+  }
 </section>

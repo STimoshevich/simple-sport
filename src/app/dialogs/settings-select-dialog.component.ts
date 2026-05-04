@@ -13,7 +13,9 @@ interface SettingsDialogData {
   template: `
     <h2 mat-dialog-title>{{ data.title }}</h2>
     <mat-dialog-actions align="start">
-      <button mat-stroked-button *ngFor="let option of data.options" (click)="select(option.value)">{{ option.label }}</button>
+      @for (option of data.options; track option.value) {
+        <button mat-stroked-button (click)="select(option.value)">{{ option.label }}</button>
+      }
     </mat-dialog-actions>
   `
 })
