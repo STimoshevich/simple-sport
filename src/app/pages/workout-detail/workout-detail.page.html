@@ -1,6 +1,10 @@
 <section class="page">
   <h2>{{ 'APP.PAGES.WORKOUT_DETAIL.TITLE' | translate }}</h2>
   <p>{{ 'APP.PAGES.WORKOUT_DETAIL.DESCRIPTION' | translate }}</p>
+  <div class="actions">
+    <button mat-stroked-button color="primary" (click)="save()">{{ 'APP.PAGES.WORKOUT_DETAIL.SAVE' | translate }}</button>
+    <button mat-button (click)="cancel()">{{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}</button>
+  </div>
 
   <mat-card class="exercise-card" *ngFor="let workout of workouts">
     <mat-form-field appearance="outline">

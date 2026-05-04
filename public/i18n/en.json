@@ -42,7 +42,10 @@
         "WEIGHT": "Weight",
         "REPS": "Reps",
         "PLANNED_WEIGHT": "Planned weight",
-        "PLANNED_REPS": "Planned reps"
+        "PLANNED_REPS": "Planned reps",
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "UNSAVED_CONFIRM": "You have unsaved changes. Leave this page?"
       }
     }
   }
