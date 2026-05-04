@@ -47,7 +47,9 @@ export class WorkoutDetailPageComponent {
 
     this.trainingContractService.update(workout.id, {
       weeight: workout.weeight,
-      reps_count: workout.reps_count
+      reps_count: workout.reps_count,
+      plannedWeight: workout.plannedWeight,
+      plannedRepls: workout.plannedRepls
     });
   }
 }

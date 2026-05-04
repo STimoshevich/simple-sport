@@ -85,7 +85,7 @@ export class TrainingContractService {
       });
   }
 
-  getProgressSeriesByName(name: string, days = 20): { dates: string[]; reps: number[]; weights: number[] } {
+  getProgressSeriesByName(name: string, days = 20): { dates: string[]; reps: number[]; weights: number[]; plannedReps: number[]; plannedWeights: number[] } {
     const end = new Date();
     const range: string[] = [];
     for (let i = days - 1; i >= 0; i -= 1) {
@@ -96,18 +96,24 @@ export class TrainingContractService {
 
     const repsByDate = new Map<string, number>();
     const weightsByDate = new Map<string, number>();
+    const plannedRepsByDate = new Map<string, number>();
+    const plannedWeightsByDate = new Map<string, number>();
 
     for (const c of this.contracts) {
       if (c.name !== name) continue;
       const day = c.date.slice(0, 10);
       repsByDate.set(day, (repsByDate.get(day) ?? 0) + (c.reps_count ?? 0));
       weightsByDate.set(day, (weightsByDate.get(day) ?? 0) + (c.weeight ?? 0));
+      plannedRepsByDate.set(day, (plannedRepsByDate.get(day) ?? 0) + (c.plannedRepls ?? 0));
+      plannedWeightsByDate.set(day, (plannedWeightsByDate.get(day) ?? 0) + (c.plannedWeight ?? 0));
     }
 
     return {
       dates: range.map((d) => d.slice(5)),
       reps: range.map((d) => repsByDate.get(d) ?? 0),
-      weights: range.map((d) => weightsByDate.get(d) ?? 0)
+      weights: range.map((d) => weightsByDate.get(d) ?? 0),
+      plannedReps: range.map((d) => plannedRepsByDate.get(d) ?? 0),
+      plannedWeights: range.map((d) => plannedWeightsByDate.get(d) ?? 0)
     };
   }
 
@@ -122,6 +128,8 @@ export class TrainingContractService {
         name,
         reps_count: 10 + index * 5 + (dayOffset % 4),
         weeight: name === 'Bench Press' ? 40 + (dayOffset % 6) * 2 : undefined,
+        plannedRepls: 12 + index * 5,
+        plannedWeight: name === 'Bench Press' ? 45 : undefined,
         arcived: dayOffset > 20 && index === 2,
         group_id: dayKey,
         date: date.toISOString()

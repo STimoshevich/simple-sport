@@ -16,6 +16,8 @@
         <strong>{{ workout.name || ('APP.PAGES.HISTORY.EMPTY_NAME' | translate) }}</strong>
         <span>{{ workout.reps_count }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>
         <span *ngIf="workout.weeight">{{ workout.weeight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>
+        <span *ngIf="workout.plannedRepls">plan: {{ workout.plannedRepls }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>
+        <span *ngIf="workout.plannedWeight">plan: {{ workout.plannedWeight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>
       </div>
     </mat-card>
   </a>

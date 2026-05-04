@@ -97,7 +97,10 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
       tooltip: { trigger: 'axis' },
       xAxis: { type: 'category', data: series.dates },
       yAxis: { type: 'value' },
-      series: [{ data: series.reps, type: 'line', smooth: true }]
+      series: [
+        { name: 'Done', data: series.reps, type: 'line', smooth: true },
+        { name: 'Planned', data: series.plannedReps, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
+      ]
     });
 
     this.weightChart?.setOption({
@@ -105,7 +108,10 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
       tooltip: { trigger: 'axis' },
       xAxis: { type: 'category', data: series.dates },
       yAxis: { type: 'value' },
-      series: [{ data: series.weights, type: 'line', smooth: true }]
+      series: [
+        { name: 'Done', data: series.weights, type: 'line', smooth: true },
+        { name: 'Planned', data: series.plannedWeights, type: 'line', smooth: true, lineStyle: { type: 'dashed' } }
+      ]
     });
   }
   private bindChartsGroupSync(): void {
