@@ -5,6 +5,7 @@ import { connect, disconnect, ECharts, init, use } from 'echarts/core';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
+import { EChartsOption } from 'echarts';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -80,10 +81,8 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
     const syncHover = (source: ECharts, target: ECharts, dataIndex: number): void => {
       if (syncing) return;
       syncing = true;
-      source.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex });
-      source.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex });
-      target.dispatchAction({ type: 'showTip', seriesIndex: 0, dataIndex });
-      target.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex });
+      this.syncDataPointSelection(source, dataIndex);
+      this.syncDataPointSelection(target, dataIndex);
       syncing = false;
     };
 
@@ -104,27 +103,8 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
     const days = Math.max(1, Math.floor((end.getTime() - start.getTime()) / (24 * 60 * 60 * 1000)) + 1);
 
     const series = this.trainingService.getProgressSeriesByName(this.trainingName, days);
-    this.repsChart?.setOption({
-      grid: { left: 16, right: 16, top: 24, bottom: 24, containLabel: true },
-      tooltip: { trigger: 'axis' },
-      xAxis: { type: 'category', data: series.dates },
-      yAxis: { type: 'value' },
-      series: [
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.reps, type: this.chartView, smooth: this.chartView === 'line' },
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedReps, type: this.chartView, smooth: this.chartView === 'line', lineStyle: { type: 'dashed' } }
-      ]
-    });
-
-    this.weightChart?.setOption({
-      grid: { left: 16, right: 16, top: 24, bottom: 24, containLabel: true },
-      tooltip: { trigger: 'axis' },
-      xAxis: { type: 'category', data: series.dates },
-      yAxis: { type: 'value' },
-      series: [
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: series.weights, type: this.chartView, smooth: this.chartView === 'line' },
-        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: series.plannedWeights, type: this.chartView, smooth: this.chartView === 'line', lineStyle: { type: 'dashed' } }
-      ]
-    });
+    this.repsChart?.setOption(this.buildChartOption(series.dates, series.reps, series.plannedReps));
+    this.weightChart?.setOption(this.buildChartOption(series.dates, series.weights, series.plannedWeights));
   }
   private bindChartsGroupSync(): void {
     if (!this.repsChart || !this.weightChart) return;
@@ -132,5 +112,25 @@ export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
     this.repsChart.group = this.chartGroupId;
     this.weightChart.group = this.chartGroupId;
     connect(this.chartGroupId);
+  }
+
+  private buildChartOption(dates: string[], doneValues: number[], plannedValues: number[]): EChartsOption {
+    return {
+      grid: { left: 16, right: 16, top: 24, bottom: 24, containLabel: true },
+      tooltip: { trigger: 'axis' },
+      xAxis: { type: 'category', data: dates },
+      yAxis: { type: 'value' },
+      series: [
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_DONE'), data: doneValues, type: this.chartView, smooth: this.chartView === 'line' },
+        { name: this.translateService.translate('APP.PAGES.PROGRESS.SERIES_PLANNED'), data: plannedValues, type: this.chartView, smooth: this.chartView === 'line', lineStyle: { type: 'dashed' } }
+      ]
+    };
+  }
+
+  private syncDataPointSelection(chart: ECharts, dataIndex: number): void {
+    [0, 1].forEach((seriesIndex) => {
+      chart.dispatchAction({ type: 'showTip', seriesIndex, dataIndex });
+      chart.dispatchAction({ type: 'highlight', seriesIndex, dataIndex });
+    });
   }
 }
