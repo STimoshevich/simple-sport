@@ -1,0 +1,26 @@
+<section class="page history-page" (scroll)="onScroll($event)">
+  <div class="history-header">
+    <h2>{{ 'APP.PAGES.HISTORY.TITLE' | translate }}</h2>
+    <button class="add-button" type="button" (click)="addTraining()">+</button>
+  </div>
+  <label class="archive-toggle">
+    <input type="checkbox" [checked]="showArcived" (change)="toggleArcived($event)" />
+    {{ 'APP.PAGES.HISTORY.SHOW_ARCIVED' | translate }}
+  </label>
+  <p>{{ 'APP.PAGES.HISTORY.DESCRIPTION' | translate }}</p>
+
+  <a class="day-card-link" *ngFor="let day of filteredDays" [routerLink]="['/history/workout', day.groupId]">
+    <div class="day-card">
+      <h3>{{ day.date | date: 'dd.MM.yyyy' }}</h3>
+
+      <div class="workout-card" [class.workout-card-arcived]="workout.arcived" *ngFor="let workout of day.trainings">
+        <strong>{{ workout.name || ('APP.PAGES.HISTORY.EMPTY_NAME' | translate) }}</strong>
+        <span>{{ workout.reps_count }} {{ 'APP.PAGES.HISTORY.REPS' | translate }}</span>
+        <span *ngIf="workout.weeight">{{ workout.weeight }} {{ 'APP.PAGES.HISTORY.KG' | translate }}</span>
+      </div>
+    </div>
+  </a>
+
+  <p class="loading" *ngIf="hasMore">{{ 'APP.PAGES.HISTORY.LOADING_MORE' | translate }}</p>
+  <p class="loading" *ngIf="!hasMore">{{ 'APP.PAGES.HISTORY.NO_MORE' | translate }}</p>
+</section>

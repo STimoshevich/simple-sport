@@ -1,0 +1,17 @@
+<section class="page">
+  <h2>{{ 'APP.PAGES.WORKOUT_DETAIL.TITLE' | translate }}</h2>
+  <p>{{ 'APP.PAGES.WORKOUT_DETAIL.DESCRIPTION' | translate }}</p>
+
+  <article class="exercise-card" *ngFor="let workout of workouts">
+    <select [(ngModel)]="workout.name" (ngModelChange)="onNameChange(workout)">
+      <option *ngFor="let name of availableNames" [ngValue]="name">{{ name }}</option>
+    </select>
+
+    <input type="number" placeholder="Weight" [(ngModel)]="workout.weeight" (ngModelChange)="onMetricsChange(workout)" />
+    <input type="number" placeholder="Reps" [(ngModel)]="workout.reps_count" (ngModelChange)="onMetricsChange(workout)" />
+
+    <small class="error" *ngIf="validationErrorById[workout.id]">
+      {{ 'APP.PAGES.WORKOUT_DETAIL.VALIDATION' | translate }}
+    </small>
+  </article>
+</section>

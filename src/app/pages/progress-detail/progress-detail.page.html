@@ -1,0 +1,20 @@
+<section class="page">
+  <h2>{{ trainingName }}</h2>
+  <p>{{ 'APP.PAGES.PROGRESS.CHART_PLACEHOLDER' | translate }}</p>
+
+  <input
+    class="range-input"
+    type="text"
+    ngxDaterangepickerBootstrap
+    [(ngModel)]="selectedRange"
+    [locale]="{ format: 'YYYY-MM-DD' }"
+    (datesUpdated)="onRangeUpdated()"
+    readonly
+  />
+
+  <h3>{{ 'APP.PAGES.PROGRESS.REPS_CHART' | translate }}</h3>
+  <div #repsChartContainer class="progress-chart" [attr.aria-label]="'APP.PAGES.PROGRESS.CHART_ARIA' | translate"></div>
+
+  <h3>{{ 'APP.PAGES.PROGRESS.WEIGHT_CHART' | translate }}</h3>
+  <div #weightChartContainer class="progress-chart"></div>
+</section>

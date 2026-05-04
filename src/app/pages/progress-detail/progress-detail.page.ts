@@ -15,32 +15,8 @@ use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
   standalone: true,
   selector: 'app-progress-detail-page',
   imports: [FormsModule, TranslatePipe, NgxDaterangepickerBootstrapDirective],
-  template: `
-    <section class="page">
-      <h2>{{ trainingName }}</h2>
-      <p>{{ 'APP.PAGES.PROGRESS.CHART_PLACEHOLDER' | translate }}</p>
-
-      <input
-        class="range-input"
-        type="text"
-        ngxDaterangepickerBootstrap
-        [(ngModel)]="selectedRange"
-        [locale]="{ format: 'YYYY-MM-DD' }"
-        (datesUpdated)="onRangeUpdated()"
-        readonly
-      />
-
-      <h3>{{ 'APP.PAGES.PROGRESS.REPS_CHART' | translate }}</h3>
-      <div #repsChartContainer class="progress-chart" [attr.aria-label]="'APP.PAGES.PROGRESS.CHART_ARIA' | translate"></div>
-
-      <h3>{{ 'APP.PAGES.PROGRESS.WEIGHT_CHART' | translate }}</h3>
-      <div #weightChartContainer class="progress-chart"></div>
-    </section>
-  `,
-  styles: [
-    `.range-input { width: 100%; max-width: 260px; margin: 8px 0 12px; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(148,163,184,.45); background: #0f172a; color: #e2e8f0; }
-     .progress-chart { width: 100%; height: 280px; margin-top: 8px; }`
-  ]
+  templateUrl: './progress-detail.page.html',
+  styleUrls: ['./progress-detail.page.css']
 })
 export class ProgressDetailPageComponent implements AfterViewInit, OnDestroy {
   @ViewChild('repsChartContainer', { static: true }) repsChartContainer!: ElementRef<HTMLDivElement>;

@@ -11,38 +11,8 @@ import { TrainingNameService } from '../../services/training-name.service';
   standalone: true,
   selector: 'app-workout-detail-page',
   imports: [TranslatePipe, CommonModule, FormsModule],
-  template: `
-    <section class="page">
-      <h2>{{ 'APP.PAGES.WORKOUT_DETAIL.TITLE' | translate }}</h2>
-      <p>{{ 'APP.PAGES.WORKOUT_DETAIL.DESCRIPTION' | translate }}</p>
-
-      <article class="exercise-card" *ngFor="let workout of workouts">
-        <select [(ngModel)]="workout.name" (ngModelChange)="onNameChange(workout)">
-          <option *ngFor="let name of availableNames" [ngValue]="name">{{ name }}</option>
-        </select>
-
-        <input
-          type="number"
-          placeholder="Weight"
-          [(ngModel)]="workout.weeight"
-          (ngModelChange)="onMetricsChange(workout)"
-        />
-        <input
-          type="number"
-          placeholder="Reps"
-          [(ngModel)]="workout.reps_count"
-          (ngModelChange)="onMetricsChange(workout)"
-        />
-
-        <small class="error" *ngIf="validationErrorById[workout.id]">
-          {{ 'APP.PAGES.WORKOUT_DETAIL.VALIDATION' | translate }}
-        </small>
-      </article>
-    </section>
-  `,
-  styles: [`.exercise-card { background: #0f172a; border: 1px solid rgba(148,163,184,.3); border-radius: 10px; padding: 10px; margin-bottom: 10px; display: grid; gap: 8px; }
-            .exercise-card select, .exercise-card input { background: #1e293b; border: 1px solid rgba(148,163,184,.35); color: #e2e8f0; border-radius: 8px; padding: 8px; width: 100%; }
-            .error { color: #fca5a5; }`]
+  templateUrl: './workout-detail.page.html',
+  styleUrls: ['./workout-detail.page.css']
 })
 export class WorkoutDetailPageComponent {
   workouts: TrainingContractRecord[] = [];
