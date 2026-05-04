@@ -3,7 +3,7 @@
     "TITLE": "SimpleSport",
     "MENU": {
       "PROGRESS": "Progress",
-      "HISTORY": "History",
+      "HISTORY": "Trainings",
       "CONFIGURATION": "Configuration"
     },
     "PAGES": {
@@ -15,8 +15,8 @@
         "CHART_PLACEHOLDER": "Chart for the last 20 days."
       },
       "HISTORY": {
-        "TITLE": "History",
-        "DESCRIPTION": "Completed training history will be shown here.",
+        "TITLE": "Trainings",
+        "DESCRIPTION": "User training list is shown here.",
         "LOADING_MORE": "Loading 5 more days...",
         "NO_MORE": "No more data",
         "REPS": "reps",
@@ -25,6 +25,10 @@
       "CONFIGURATION": {
         "TITLE": "Configuration",
         "DESCRIPTION": "Application and profile settings will be shown here."
+      },
+      "WORKOUT_DETAIL": {
+        "TITLE": "Training",
+        "DESCRIPTION": "Empty training detail page."
       }
     }
   }
