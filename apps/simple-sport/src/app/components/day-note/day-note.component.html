@@ -1,0 +1,52 @@
+@if (editing()) {
+    <mat-form-field
+        class="note-field"
+        appearance="outline"
+    >
+        <mat-label>{{ 'APP.PAGES.HISTORY.NOTE' | translate }}</mat-label>
+        <textarea
+            #noteInput
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="8"
+            [maxlength]="maxLength"
+            [(ngModel)]="draft"
+            (blur)="commit()"
+            (keydown.escape)="cancelEdit()"
+        ></textarea>
+    </mat-form-field>
+} @else if (text()) {
+    <div class="note-read">
+        <button
+            type="button"
+            class="note-text-button"
+            (click)="startEdit()"
+        >
+            <p
+                #noteText
+                class="note-text"
+                [class.is-clamped]="!expanded()"
+            >
+                {{ text() }}
+            </p>
+        </button>
+        @if (overflows() || expanded()) {
+            <button
+                type="button"
+                class="note-toggle"
+                (click)="toggleExpanded($event)"
+            >
+                {{ (expanded() ? 'APP.PAGES.HISTORY.COLLAPSE' : 'APP.PAGES.HISTORY.SHOW_FULLY') | translate }}
+            </button>
+        }
+    </div>
+} @else {
+    <button
+        type="button"
+        class="note-add"
+        (click)="startEdit()"
+    >
+        {{ 'APP.PAGES.HISTORY.ADD_NOTE' | translate }}
+    </button>
+}

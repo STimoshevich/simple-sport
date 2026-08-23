@@ -1,0 +1,135 @@
+<section
+    class="day-section"
+    [class.is-today]="view().isToday"
+    [class.is-future]="view().isFuture"
+    [class.is-muted]="view().muted"
+    [attr.id]="view().isToday ? 'feed-today' : null"
+    [attr.data-date]="day()"
+>
+    <h3 class="section-label">
+        @if (view().isToday) {
+            {{ 'APP.PAGES.HISTORY.TODAY' | translate }}
+        } @else {
+            {{ day() | date: 'dd.MM.yyyy' }}
+        }
+    </h3>
+
+    <app-day-note
+        [date]="day()"
+        [text]="view().note"
+        (saved)="noteSaved.emit($event)"
+    />
+
+    @if (view().trainings.length) {
+        <div
+            class="day-trainings"
+            cdkDropList
+            [id]="'feed-day-' + day()"
+            [cdkDropListData]="view().trainings"
+            [cdkDropListDisabled]="view().trainings.length < 2"
+            (cdkDropListDropped)="onTrainingDrop($event)"
+        >
+            @for (session of view().trainings; track session.id) {
+                <article
+                    class="session-card"
+                    cdkDrag
+                    [class.is-muted]="!view().muted && session.muted"
+                    [cdkDragDisabled]="view().trainings.length < 2"
+                    [cdkDragStartDelay]="{mouse: 0, touch: 180}"
+                >
+                    <div
+                        class="workout-header"
+                        [class.can-drag]="view().trainings.length > 1"
+                        cdkDragHandle
+                    >
+                        @if (view().trainings.length > 1) {
+                            <mat-icon
+                                class="drag-handle-icon"
+                                aria-hidden="true"
+                            >
+                                drag_indicator
+                            </mat-icon>
+                        }
+                        <button
+                            type="button"
+                            class="workout-title"
+                            (click)="workoutOpened.emit(session.id)"
+                        >
+                            {{ sessionTitle(session) }}
+                        </button>
+                        @if (session.allDone) {
+                            <mat-icon
+                                class="workout-done-icon"
+                                aria-hidden="true"
+                            >
+                                check
+                            </mat-icon>
+                        }
+                    </div>
+                    @if (session.comment) {
+                        <p class="session-note">{{ session.comment }}</p>
+                    }
+                    @for (exercise of session.exercises; track exercise.id) {
+                        <div
+                            class="exercise-row"
+                            [class.is-muted]="!view().muted && !session.muted && exercise.muted"
+                        >
+                            <mat-checkbox
+                                [checked]="exercise.checkState === 'all'"
+                                [indeterminate]="exercise.checkState === 'partial'"
+                                [disabled]="exercise.checkState === 'empty'"
+                                [disableRipple]="true"
+                                (click)="onExerciseClick($event, exercise)"
+                                [attr.aria-label]="exercise.name || ('APP.PAGES.EXERCISES.UNTITLED' | translate)"
+                            ></mat-checkbox>
+                            <span class="exercise-name">
+                                {{ exercise.name || ('APP.PAGES.EXERCISES.UNTITLED' | translate) }}
+                                @if (exercise.archived) {
+                                    <mat-icon
+                                        class="exercise-archive-icon"
+                                        [attr.aria-label]="'APP.PAGES.EXERCISES.ARCHIVE' | translate"
+                                    >
+                                        inventory_2
+                                    </mat-icon>
+                                }
+                                @if (exercise.comment?.trim()) {
+                                    <mat-icon
+                                        class="exercise-note-icon"
+                                        [attr.aria-label]="'APP.PAGES.HISTORY.HAS_NOTE' | translate"
+                                    >
+                                        sticky_note_2
+                                    </mat-icon>
+                                }
+                            </span>
+                            <span class="set-count">
+                                @if (exercise.checkState === 'empty') {
+                                    {{ 'APP.PAGES.HISTORY.SETS_NONE' | translate }}
+                                } @else {
+                                    {{ exercise.doneSets }}/{{ exercise.totalSets }}
+                                }
+                            </span>
+                        </div>
+                    }
+                </article>
+            }
+        </div>
+        <button
+            mat-stroked-button
+            type="button"
+            class="day-add-more"
+            (click)="trainingAdded.emit()"
+            [attr.aria-label]="'APP.PAGES.HISTORY.ADD_TITLE' | translate"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    } @else {
+        <button
+            type="button"
+            class="day-empty-add"
+            (click)="trainingAdded.emit()"
+            [attr.aria-label]="'APP.PAGES.HISTORY.ADD_TITLE' | translate"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    }
+</section>

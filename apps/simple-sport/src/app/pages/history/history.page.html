@@ -1,0 +1,79 @@
+@let hasLoaded = store.hasLoaded();
+@let isLoading = store.meta().isLoading;
+@let byDate = store.byDate();
+
+<section class="page history-page">
+    <app-history-feed-header
+        [periodLabel]="periodLabel()"
+        (openFilters)="openFilters()"
+        (clearPeriod)="clearPeriod()"
+    />
+
+    @if (!hasLoaded) {
+        <p class="loading">{{ 'APP.PAGES.HISTORY.LOADING' | translate }}</p>
+    } @else if (showFilterEmpty()) {
+        <div class="history-empty empty-state">
+            <p class="history-empty-label">{{ 'APP.PAGES.HISTORY.EMPTY_FILTER' | translate }}</p>
+            <button
+                mat-stroked-button
+                type="button"
+                (click)="resetFilters()"
+            >
+                {{ 'APP.PAGES.HISTORY.RESET_FILTERS' | translate }}
+            </button>
+        </div>
+    } @else if (hasLoaded) {
+        <div class="history-feed"
+             appInfiniteScroll
+             direction="up"
+             [threshold]="loadMoreThresholdPercent"
+             [disabled]="isLoading || restoring()"
+             (reached)="loadMore()"
+        >
+            @if (store.hasMore() || isLoading) {
+                <div
+                    class="load-more"
+
+                >
+                    @if (isLoading && byDate.length) {
+                        <p class="loading">{{ 'APP.PAGES.HISTORY.LOADING_MORE' | translate }}</p>
+                    } @else {
+                        <button
+                            mat-stroked-button
+                            type="button"
+                            class="load-more-button"
+                            (click)="loadMore()"
+                        >
+                            {{ 'APP.PAGES.HISTORY.LOAD_MORE' | translate }}
+                        </button>
+                    }
+                </div>
+            } @else if (byDate.length) {
+                <p class="history-start-label">{{ 'APP.PAGES.HISTORY.HISTORY_START' | translate }}</p>
+            }
+
+            @for (day of byDate; track day.key) {
+                <!--                <p class="today-hint">{{ 'APP.PAGES.HISTORY.EMPTY' | translate }}</p>-->
+                <app-history-day-section
+                    [day]="day.key"
+                    [dayItems]="day.items"
+                    (noteSaved)="saveDayNote(day.key, $event)"
+                    (trainingAdded)="addTraining($event)"
+                    (workoutOpened)="openWorkout($event, day.key)"
+                    (trainingsReordered)="reorderTrainings(day.key, $event)"
+                    (exerciseToggled)="onExerciseToggle($event)"
+                />
+            }
+        </div>
+    }
+
+    <button
+        mat-fab
+        class="feed-fab"
+        type="button"
+        (click)="addTraining()"
+        [attr.aria-label]="'APP.PAGES.HISTORY.ADD_TITLE' | translate"
+    >
+        <mat-icon>add</mat-icon>
+    </button>
+</section>

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["apps/**/*.ts", "libs/**/*.ts", "capacitor.config.ts"],
+  "exclude": ["node_modules", "dist", ".angular", ".nx"]
+}

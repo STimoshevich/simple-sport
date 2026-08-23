@@ -1,0 +1,12 @@
+<mat-form-field
+    class="full-width"
+    [class.is-invalid]="error()"
+>
+    <mat-label>{{ label() }}</mat-label>
+    <input
+        matInput
+        [value]="displayValue"
+        readonly
+        (click)="openDialog()"
+    />
+</mat-form-field>

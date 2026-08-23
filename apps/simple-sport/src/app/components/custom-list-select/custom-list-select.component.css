@@ -1,0 +1,10 @@
+.full-width {
+    width: 100%;
+}
+
+.is-invalid {
+    --mat-form-field-outlined-outline-color: var(--mat-sys-error);
+    --mat-form-field-outlined-focus-outline-color: var(--mat-sys-error);
+    --mat-form-field-outlined-hover-outline-color: var(--mat-sys-error);
+    --mat-form-field-outlined-label-text-color: var(--mat-sys-error);
+}

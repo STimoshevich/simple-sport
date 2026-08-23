@@ -1,0 +1,25 @@
+<section class="page">
+    <h2>{{ 'APP.PAGES.PROGRESS.TITLE' | translate }}</h2>
+    <p class="page-lead">{{ 'APP.PAGES.PROGRESS.HUB_DESCRIPTION' | translate }}</p>
+
+    <div class="hub-grid">
+        <a
+            class="hub-card"
+            [routerLink]="paths.PROGRESS_TRAINING"
+        >
+            <span class="hub-icon">
+                <mat-icon>fitness_center</mat-icon>
+            </span>
+            <strong>{{ 'APP.PAGES.PROGRESS.TRAINING_TITLE' | translate }}</strong>
+        </a>
+        <a
+            class="hub-card"
+            [routerLink]="paths.PROGRESS_FOOD"
+        >
+            <span class="hub-icon">
+                <mat-icon>restaurant</mat-icon>
+            </span>
+            <strong>{{ 'APP.PAGES.PROGRESS.FOOD_TITLE' | translate }}</strong>
+        </a>
+    </div>
+</section>

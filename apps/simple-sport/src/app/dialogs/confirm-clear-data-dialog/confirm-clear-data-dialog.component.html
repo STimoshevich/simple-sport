@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{ 'APP.SETTINGS.CLEAR_DATA_TITLE' | translate }}</h2>
+<mat-dialog-content>{{ 'APP.SETTINGS.CLEAR_DATA_CONFIRM' | translate }}</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button
+        mat-button
+        type="button"
+        (click)="close(false)"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}
+    </button>
+    <button
+        mat-flat-button
+        color="warn"
+        type="button"
+        (click)="close(true)"
+    >
+        {{ 'APP.SETTINGS.CLEAR_DATA_ACTION' | translate }}
+    </button>
+</mat-dialog-actions>

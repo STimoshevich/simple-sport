@@ -1,0 +1,20 @@
+<section class="page">
+    <h2>{{ 'APP.PAGES.PROGRESS.TRAINING_TITLE' | translate }}</h2>
+    <p class="page-lead">{{ 'APP.PAGES.PROGRESS.DESCRIPTION' | translate }}</p>
+
+    @if (store.names().length) {
+        <div class="settings-list">
+            @for (name of store.names(); track name) {
+                <a
+                    class="settings-row"
+                    [routerLink]="[paths.PROGRESS_TRAINING, name]"
+                >
+                    <span class="settings-row-label">{{ name }}</span>
+                    <mat-icon>chevron_right</mat-icon>
+                </a>
+            }
+        </div>
+    } @else {
+        <p class="empty-state">{{ 'APP.PAGES.PROGRESS.EMPTY_NAMES' | translate }}</p>
+    }
+</section>

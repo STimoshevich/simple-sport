@@ -1,0 +1,41 @@
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 20px 18px;
+}
+
+.hero-value {
+    font-size: 44px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.hero-unit,
+.hero-caption {
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.hero-unit {
+    font: var(--mat-sys-title-medium);
+}
+
+.hero-caption {
+    margin-top: 8px;
+    font: var(--mat-sys-label-large);
+}
+
+.add-form {
+    display: grid;
+    gap: 4px;
+}
+
+.add-form button {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.entry-row {
+    padding-right: 4px;
+}

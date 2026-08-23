@@ -1,0 +1,9 @@
+.full-width {
+    width: 100%;
+}
+
+.error {
+    display: block;
+    margin: -8px 0 12px;
+    color: var(--mat-sys-error);
+}

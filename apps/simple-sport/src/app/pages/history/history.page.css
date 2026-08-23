@@ -1,0 +1,68 @@
+.history-page {
+    gap: 8px;
+    padding-bottom: 72px;
+}
+
+.feed-fab {
+    position: fixed;
+    right: var(--app-page-pad);
+    bottom: calc(var(--app-bottom-nav-height) + 16px + env(safe-area-inset-bottom));
+    z-index: 15;
+}
+
+.history-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-anchor: auto;
+}
+
+.today-hint,
+.history-start-label,
+.planned-divider {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-body-medium);
+}
+
+.today-hint {
+    padding: 8px 4px 0;
+}
+
+.history-start-label,
+.planned-divider {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font: var(--mat-sys-label-large);
+}
+
+.planned-divider {
+    margin: 8px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 55%, transparent);
+}
+
+.load-more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 44px;
+    margin: 8px 0 16px;
+}
+
+.load-more .loading,
+.loading {
+    margin: 0;
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.history-empty {
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}

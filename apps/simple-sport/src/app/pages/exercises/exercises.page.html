@@ -1,0 +1,59 @@
+<section class="page">
+    <header class="page-header">
+        <div>
+            <a
+                class="back-link"
+                [routerLink]="paths.CONFIGURATION"
+            >
+                {{ 'APP.SETTINGS.TITLE' | translate }}
+            </a>
+            <h2>{{ 'APP.PAGES.EXERCISES.TITLE' | translate }}</h2>
+            <p class="page-lead">{{ 'APP.PAGES.EXERCISES.DESCRIPTION' | translate }}</p>
+        </div>
+        <button
+            mat-mini-fab
+            class="add-button"
+            type="button"
+            (click)="openCreate()"
+            [attr.aria-label]="'APP.PAGES.EXERCISES.ADD' | translate"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    </header>
+
+    <mat-checkbox
+        class="archive-toggle"
+        [checked]="showArchived()"
+        (change)="onShowArchived($event.checked)"
+    >
+        {{ 'APP.PAGES.EXERCISES.SHOW_ARCHIVED' | translate }}
+    </mat-checkbox>
+
+    @if (exercises().length) {
+        <div class="settings-list">
+            @for (exercise of exercises(); track exercise.id) {
+                <button
+                    class="settings-row"
+                    [class.exercise-card-archived]="exercise.archived"
+                    type="button"
+                    (click)="openEdit(exercise)"
+                >
+                    <span class="settings-row-label">
+                        {{ exercise.name || ('APP.PAGES.EXERCISES.UNTITLED' | translate) }}
+                    </span>
+                    <span class="type-chip">
+                        {{
+                            (exercise.type === 'cardio' ? 'APP.PAGES.EXERCISES.CARDIO' : 'APP.PAGES.EXERCISES.STRENGTH')
+                                | translate
+                        }}
+                    </span>
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            }
+        </div>
+    } @else if (emptyKind() === 'filter') {
+        <p class="empty-state">{{ 'APP.PAGES.EXERCISES.EMPTY_FILTER' | translate }}</p>
+    } @else if (emptyKind() === 'none') {
+        <p class="empty-state">{{ 'APP.PAGES.EXERCISES.EMPTY' | translate }}</p>
+    }
+</section>

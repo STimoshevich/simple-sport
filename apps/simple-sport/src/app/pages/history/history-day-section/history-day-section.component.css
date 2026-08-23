@@ -1,0 +1,154 @@
+:host {
+    display: contents;
+}
+
+.day-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-anchor: auto;
+}
+
+.day-section.is-future {
+    opacity: 0.72;
+}
+
+.day-section.is-muted,
+.session-card.is-muted,
+.exercise-row.is-muted {
+    opacity: 0.4;
+}
+
+.day-trainings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.session-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 14px;
+}
+
+.workout-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: var(--app-tap);
+    color: inherit;
+    text-decoration: none;
+}
+
+.workout-header.can-drag {
+    cursor: grab;
+}
+
+.drag-handle-icon {
+    flex-shrink: 0;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.workout-title {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+    text-decoration: none;
+    font: var(--mat-sys-title-medium);
+    cursor: pointer;
+}
+
+.session-card.cdk-drag-preview {
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--mat-sys-on-surface) 18%, transparent);
+}
+
+.session-card.cdk-drag-placeholder {
+    opacity: 0.4;
+}
+
+.day-trainings.cdk-drop-list-dragging .session-card:not(.cdk-drag-placeholder) {
+    transition: transform 180ms ease;
+}
+
+.workout-done-icon {
+    flex-shrink: 0;
+    color: var(--mat-sys-primary);
+}
+
+.session-note {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-body-medium);
+    white-space: pre-wrap;
+}
+
+.exercise-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 0 0;
+}
+
+.exercise-row + .exercise-row {
+    border-top: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 55%, transparent);
+    padding-top: 8px;
+}
+
+.exercise-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+}
+
+.exercise-note-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.set-count {
+    flex-shrink: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-label-large);
+    font-variant-numeric: tabular-nums;
+}
+
+.exercise-archive-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.day-empty-add,
+.day-add-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--app-tap);
+    border: 0;
+    border-radius: var(--app-radius-md);
+    background: var(--mat-sys-surface-container);
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.day-empty-add {
+    min-height: 88px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.day-add-more {
+    align-self: flex-end;
+}

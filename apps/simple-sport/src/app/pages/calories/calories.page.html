@@ -1,0 +1,63 @@
+<section class="page">
+    <h2>{{ 'APP.PAGES.CALORIES.TITLE' | translate }}</h2>
+    <p class="page-lead">{{ 'APP.PAGES.CALORIES.DESCRIPTION' | translate }}</p>
+
+    <mat-card class="summary-card">
+        <span class="hero-value">{{ store.total() }}</span>
+        <span class="hero-unit">/ {{ store.planned() }} {{ 'APP.PAGES.CALORIES.KCAL' | translate }}</span>
+        <span class="hero-caption">{{ 'APP.PAGES.CALORIES.TODAY_TOTAL' | translate }}</span>
+    </mat-card>
+
+    <form
+        class="add-form"
+        (ngSubmit)="addEntry()"
+    >
+        <mat-form-field>
+            <mat-label>{{ 'APP.PAGES.CALORIES.FOOD' | translate }}</mat-label>
+            <input
+                matInput
+                [(ngModel)]="foodName"
+                name="foodName"
+            />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ 'APP.PAGES.CALORIES.KCAL' | translate }}</mat-label>
+            <input
+                matInput
+                type="number"
+                [(ngModel)]="calories"
+                name="calories"
+            />
+        </mat-form-field>
+        <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+        >
+            {{ 'APP.PAGES.CALORIES.ADD' | translate }}
+        </button>
+    </form>
+
+    @if (store.entries().length) {
+        <div class="settings-list">
+            @for (entry of store.entries(); track entry.id) {
+                <div class="settings-row entry-row">
+                    <span class="settings-row-label">{{ entry.name }}</span>
+                    <span class="settings-row-value metric">
+                        {{ entry.calories }} {{ 'APP.PAGES.CALORIES.KCAL' | translate }}
+                    </span>
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="removeEntry(entry.id)"
+                        [attr.aria-label]="'APP.PAGES.CALORIES.REMOVE' | translate"
+                    >
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            }
+        </div>
+    } @else if (store.hasLoaded()) {
+        <p class="empty-state">{{ 'APP.PAGES.CALORIES.EMPTY' | translate }}</p>
+    }
+</section>

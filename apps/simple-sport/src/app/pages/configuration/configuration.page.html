@@ -1,0 +1,69 @@
+<section class="page">
+    <h2>{{ 'APP.PAGES.CONFIGURATION.TITLE' | translate }}</h2>
+    <p class="page-lead">{{ 'APP.PAGES.CONFIGURATION.DESCRIPTION' | translate }}</p>
+
+    <section class="settings-group">
+        <h3>{{ 'APP.SETTINGS.BUSINESS' | translate }}</h3>
+        <div class="settings-list">
+            <a
+                class="settings-row"
+                [routerLink]="paths.CONFIGURATION_EXERCISES"
+            >
+                <span class="settings-row-label">{{ 'APP.SETTINGS.EXERCISES' | translate }}</span>
+                <mat-icon>chevron_right</mat-icon>
+            </a>
+            <button
+                class="settings-row"
+                type="button"
+                (click)="openWeightUnitPopup()"
+            >
+                <span class="settings-row-label">{{ 'APP.SETTINGS.UNITS.WEIGHT' | translate }}</span>
+                <span class="settings-row-value">{{ unitsStore.weightUnitKey() | translate }}</span>
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+            <button
+                class="settings-row"
+                type="button"
+                (click)="openDistanceUnitPopup()"
+            >
+                <span class="settings-row-label">{{ 'APP.SETTINGS.UNITS.DISTANCE' | translate }}</span>
+                <span class="settings-row-value">{{ unitsStore.distanceUnitKey() | translate }}</span>
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
+    </section>
+
+    <section class="settings-group">
+        <h3>{{ 'APP.SETTINGS.SYSTEM' | translate }}</h3>
+        <div class="settings-list">
+            <button
+                class="settings-row"
+                type="button"
+                (click)="openLanguagePopup()"
+            >
+                <span class="settings-row-label">{{ 'APP.SETTINGS.LANGUAGE' | translate }}</span>
+                <span class="settings-row-value">{{ currentLanguage }}</span>
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+            <button
+                class="settings-row"
+                type="button"
+                (click)="openThemePopup()"
+            >
+                <span class="settings-row-label">{{ 'APP.SETTINGS.THEME' | translate }}</span>
+                <span class="settings-row-value">
+                    {{ (themeStore.theme() === 'light' ? 'APP.SETTINGS.LIGHT' : 'APP.SETTINGS.DARK') | translate }}
+                </span>
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+            <button
+                class="settings-row danger"
+                type="button"
+                (click)="clearData()"
+            >
+                <span class="settings-row-label">{{ 'APP.SETTINGS.CLEAR_DATA' | translate }}</span>
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
+    </section>
+</section>

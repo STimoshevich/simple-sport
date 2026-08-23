@@ -1,5 +1,11 @@
 dist
 node_modules
+.angular
+.nx
 android
 ios
 coverage
+yarn.lock
+package-lock.json
+*.min.css
+*.min.js

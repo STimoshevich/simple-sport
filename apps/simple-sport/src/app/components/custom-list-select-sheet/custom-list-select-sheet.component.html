@@ -1,0 +1,73 @@
+<h3 class="title">{{ title }}</h3>
+<div class="sheet-content">
+    @if (searchable) {
+        <mat-form-field class="search-field">
+            <mat-label>{{ searchPlaceholder }}</mat-label>
+            <input
+                matInput
+                [(ngModel)]="query"
+            />
+        </mat-form-field>
+    }
+    <div
+        class="list"
+        #listContainer
+    >
+        @if (showCreate()) {
+            <div
+                class="row create-row"
+                role="option"
+                tabindex="0"
+                aria-selected="false"
+                (click)="create()"
+                (keydown.enter)="create()"
+            >
+                <span>{{ createLabel(query().trim()) }}</span>
+            </div>
+        }
+        @for (item of visibleItems(); track $index) {
+            <div
+                class="row"
+                #itemRow
+                role="option"
+                tabindex="0"
+                [attr.aria-selected]="isSelected(item)"
+                (click)="toggle(item)"
+                (keydown.enter)="toggle(item)"
+                (keydown.space)="$event.preventDefault(); toggle(item)"
+            >
+                @if (multiple) {
+                    <mat-checkbox
+                        [checked]="isSelected(item)"
+                        tabindex="-1"
+                    ></mat-checkbox>
+                }
+                @if (itemTemplate) {
+                    <ng-container
+                        [ngTemplateOutlet]="itemTemplate"
+                        [ngTemplateOutletContext]="{$implicit: item, selected: isSelected(item)}"
+                    ></ng-container>
+                } @else {
+                    <span>{{ displayWith(item) }}</span>
+                }
+            </div>
+        }
+    </div>
+</div>
+@if (multiple) {
+    <div class="actions">
+        <button
+            mat-button
+            (click)="close()"
+        >
+            Cancel
+        </button>
+        <button
+            mat-flat-button
+            color="primary"
+            (click)="apply()"
+        >
+            Apply
+        </button>
+    </div>
+}

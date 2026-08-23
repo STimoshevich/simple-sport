@@ -1,0 +1,104 @@
+<h3 class="title">{{ 'APP.PAGES.HISTORY.FILTERS' | translate }}</h3>
+
+<section class="filter-group">
+    <h4 class="filter-group-title">{{ 'APP.PAGES.HISTORY.PERIOD' | translate }}</h4>
+    <mat-form-field
+        class="full-width"
+        (click)="openDateRange()"
+    >
+        <mat-label>{{ 'APP.PAGES.PROGRESS.DATE_RANGE' | translate }}</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+            <input
+                matStartDate
+                [ngModel]="state().startDate"
+                (ngModelChange)="setStartDate($event)"
+                readonly
+                (click)="$event.stopPropagation(); openDateRange()"
+            />
+            <input
+                matEndDate
+                [ngModel]="state().endDate"
+                (ngModelChange)="setEndDate($event)"
+                readonly
+                (click)="$event.stopPropagation(); openDateRange()"
+            />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+            (click)="$event.stopPropagation()"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker
+            #picker
+            [touchUi]="true"
+            panelClass="fullscreen-date-range-picker"
+        ></mat-date-range-picker>
+    </mat-form-field>
+    @if (state().startDate || state().endDate) {
+        <button
+            mat-button
+            type="button"
+            class="clear-dates"
+            (click)="clearDates()"
+        >
+            {{ 'APP.PAGES.HISTORY.CLEAR_DATES' | translate }}
+        </button>
+    }
+</section>
+
+<section class="filter-group">
+    <h4 class="filter-group-title">{{ 'APP.PAGES.HISTORY.WORKOUT_TYPE' | translate }}</h4>
+    @for (option of typeOptions; track option.value) {
+        <mat-checkbox
+            [checked]="hasType(option.value)"
+            (change)="toggleType(option.value, $event.checked)"
+        >
+            {{ option.label | translate }}
+        </mat-checkbox>
+    }
+</section>
+
+<section class="filter-group">
+    <h4 class="filter-group-title">{{ 'APP.PAGES.HISTORY.EXERCISES' | translate }}</h4>
+    <app-custom-list-select
+        [label]="'APP.PAGES.HISTORY.EXERCISES' | translate"
+        [items]="exerciseOptions"
+        [selected]="selectedExercises()"
+        [multiple]="true"
+        [searchable]="true"
+        [displayWith]="displayName"
+        (selectionChange)="onExercisesChange($event)"
+    ></app-custom-list-select>
+</section>
+
+<mat-checkbox
+    [ngModel]="state().showArchived"
+    (ngModelChange)="setShowArchived($event)"
+>
+    {{ 'APP.PAGES.HISTORY.SHOW_ARCIVED' | translate }}
+</mat-checkbox>
+
+<div class="actions">
+    <button
+        mat-button
+        type="button"
+        (click)="close()"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}
+    </button>
+    <button
+        mat-button
+        type="button"
+        (click)="resetAll()"
+    >
+        {{ 'APP.PAGES.HISTORY.RESET_ALL' | translate }}
+    </button>
+    <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="apply()"
+    >
+        {{ 'APP.PAGES.HISTORY.APPLY' | translate }}
+    </button>
+</div>

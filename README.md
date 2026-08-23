@@ -1,28 +1,41 @@
 # SimpleSport
 
-Базовая заготовка приложения на **Angular + Capacitor** для запуска в WebView на iOS и Android.
+Angular + Capacitor app in an **Nx** workspace.
 
-## Быстрый старт
+- `libs/shared` — reusable UI, models, and utilities (`@simple-sport/shared`)
+- `libs/integration` — Capacitor / SQLite and other native adapters (`@simple-sport/integration`)
 
-1. Установить зависимости:
-   ```bash
-   npm install
-   ```
-2. Запустить web-версию:
-   ```bash
-   npm start
-   ```
+## Quick start
 
-## Запуск на мобильных платформах (WebView)
+```bash
+yarn install
+yarn start
+```
+
+The workspace uses **Yarn 1** only (`packageManager` in `package.json`). Do not add `package-lock.json`.
+
+Useful commands:
+
+```bash
+yarn start          # nx serve simple-sport
+yarn build          # production build
+yarn test           # all projects, Vitest via @angular/build:unit-test
+yarn lint           # Nx lint for every project
+nx graph
+```
+
+## Mobile (WebView)
 
 ### iOS
+
 ```bash
-npm run mobile:ios
+yarn mobile:ios
 ```
 
 ### Android
+
 ```bash
-npm run mobile:android
+yarn mobile:android
 ```
 
-Скрипты собирают Angular-приложение, синхронизируют ресурсы с Capacitor и открывают нативный проект.
+These scripts build the app, sync Capacitor, and open the native project.

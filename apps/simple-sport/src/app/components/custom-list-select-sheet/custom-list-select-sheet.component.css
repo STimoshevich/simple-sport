@@ -1,0 +1,48 @@
+.title {
+    margin: 0 0 12px;
+    font: var(--mat-sys-title-large);
+}
+
+.sheet-content {
+    max-height: 60vh;
+    overflow: auto;
+}
+
+.search-field {
+    width: 100%;
+}
+
+.create-row {
+    color: var(--mat-sys-primary);
+    font-weight: 600;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: var(--app-tap);
+    padding: 10px 12px;
+    border-radius: var(--app-radius-sm);
+    cursor: pointer;
+}
+
+.row[aria-selected='true'] {
+    background: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+}
+
+.row mat-checkbox {
+    pointer-events: none;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.actions button {
+    flex: 1;
+}

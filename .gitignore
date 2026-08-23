@@ -1,6 +1,9 @@
 node_modules/
 dist/
 .angular/
+.nx/
+.nx-tmp/
 *.log
 ios/
 android/
+.idea

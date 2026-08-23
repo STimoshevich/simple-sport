@@ -1,0 +1,33 @@
+.hub-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.hub-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+}
+
+.hub-icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+}
+
+.hub-card strong {
+    font: var(--mat-sys-title-large);
+    letter-spacing: -0.02em;
+}
+
+@media (min-width: 480px) {
+    .hub-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
