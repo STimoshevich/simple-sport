@@ -1,0 +1,258 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.workout-editor-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100%;
+    padding: 12px var(--app-page-pad) calc(12px + env(safe-area-inset-bottom));
+}
+
+.editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.editor-header h2 {
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.date-field {
+    width: 100%;
+}
+
+.header-fields {
+    display: grid;
+    gap: 4px;
+}
+
+.planned-note {
+    margin: -4px 0 0;
+    color: var(--mat-sys-primary);
+    font: var(--mat-sys-label-large);
+}
+
+.create-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.choice-button {
+    min-height: var(--app-tap);
+    width: 100%;
+}
+
+.choice-hint,
+.catalog-hint {
+    margin: 0 0 8px;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-body-medium);
+}
+
+.choice-hint a,
+.catalog-hint a {
+    color: var(--mat-sys-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.inline-create {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border-radius: var(--app-radius-md);
+    background: var(--mat-sys-surface-container);
+}
+
+.inline-create h3 {
+    margin: 0;
+    font: var(--mat-sys-title-medium);
+}
+
+.inline-create-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.inline-create-actions button {
+    flex: 1;
+}
+
+.add-exercise-button {
+    width: 100%;
+}
+
+.exercise-card {
+    display: grid;
+    gap: 8px;
+    padding: 14px;
+}
+
+.exercise-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: start;
+}
+
+.exercise-pick {
+    min-width: 0;
+}
+
+.field-error {
+    margin: -8px 0 0;
+    color: var(--mat-sys-error);
+    font: var(--mat-sys-body-small);
+}
+
+.exercise-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.exercise-delete {
+    margin: -8px -8px -8px 0;
+}
+
+.note-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.note-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: var(--app-tap);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-label-large);
+    cursor: pointer;
+}
+
+.catalog-note {
+    padding: 8px 10px;
+    border-radius: var(--app-radius-md);
+    background: var(--mat-sys-surface-container);
+}
+
+.catalog-note-label {
+    margin: 0 0 4px;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-label-medium);
+}
+
+.catalog-note-text {
+    margin: 0;
+    color: var(--mat-sys-on-surface);
+    font: var(--mat-sys-body-medium);
+    white-space: pre-wrap;
+}
+
+.set-count {
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-label-large);
+}
+
+.set-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.set-row {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    gap: 6px;
+    align-items: start;
+    touch-action: pan-y;
+}
+
+.drag-handle {
+    margin-top: 10px;
+    color: var(--mat-sys-on-surface-variant);
+    cursor: grab;
+}
+
+.set-index {
+    margin-top: 12px;
+    min-width: 1.25rem;
+    font: var(--mat-sys-title-medium);
+}
+
+.set-body {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 8px;
+}
+
+.metric-grid-single {
+    grid-template-columns: 1fr;
+}
+
+.add-set-button {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.sticky-actions {
+    position: sticky;
+    bottom: env(safe-area-inset-bottom);
+    z-index: 5;
+    margin: 4px calc(-1 * var(--app-page-pad)) 0;
+    padding: 12px var(--app-page-pad);
+    background: color-mix(in srgb, var(--mat-sys-surface) 78%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.sticky-actions button {
+    flex: 1;
+}
+
+.error {
+    color: var(--mat-sys-error);
+}
+
+.type-chip {
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-label-large);
+}
+
+.set-summary,
+.derived-metrics {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-body-medium);
+}
+
+.derived-metrics {
+    color: var(--mat-sys-on-surface);
+}

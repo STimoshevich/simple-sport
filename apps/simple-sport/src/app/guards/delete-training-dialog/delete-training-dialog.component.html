@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{ 'APP.PAGES.WORKOUT_DETAIL.DELETE_TRAINING_TITLE' | translate }}</h2>
+<mat-dialog-content>{{ 'APP.PAGES.WORKOUT_DETAIL.DELETE_TRAINING_CONFIRM' | translate }}</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button
+        mat-button
+        type="button"
+        (click)="close(false)"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}
+    </button>
+    <button
+        mat-flat-button
+        color="warn"
+        type="button"
+        (click)="close(true)"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.DELETE' | translate }}
+    </button>
+</mat-dialog-actions>

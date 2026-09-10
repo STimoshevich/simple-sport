@@ -1,0 +1,10 @@
+/* mat-checkbox сам размечает подпись и связывает её со своим input,
+   поэтому обёртка не нужна — остаётся только типографика. */
+.archive-toggle {
+    font: var(--mat-sys-label-large);
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.exercise-card-archived {
+    opacity: 0.72;
+}

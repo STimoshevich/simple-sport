@@ -1,0 +1,64 @@
+{
+  "name": "simple-sport",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/simple-sport/src",
+  "prefix": "app",
+  "tags": ["type:app"],
+  "implicitDependencies": ["shared", "integration"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/simple-sport",
+        "index": "apps/simple-sport/src/index.html",
+        "browser": "apps/simple-sport/src/main.ts",
+        "tsConfig": "apps/simple-sport/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/simple-sport/public"
+          },
+          {
+            "glob": "sql-wasm.wasm",
+            "input": "node_modules/sql.js/dist",
+            "output": "assets"
+          }
+        ],
+        "styles": ["apps/simple-sport/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "2mb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "simple-sport:build:production"
+        },
+        "development": {
+          "buildTarget": "simple-sport:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    }
+  }
+}

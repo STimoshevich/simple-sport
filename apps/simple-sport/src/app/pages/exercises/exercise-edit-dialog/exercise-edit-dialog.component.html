@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>
+    {{ (isNew ? 'APP.PAGES.EXERCISES.ADD' : 'APP.PAGES.EXERCISES.EDIT') | translate }}
+</h2>
+<mat-dialog-content>
+    <mat-form-field class="full-width">
+        <mat-label>{{ 'APP.PAGES.EXERCISES.NAME' | translate }}</mat-label>
+        <input
+            matInput
+            [(ngModel)]="name"
+            (ngModelChange)="nameError.set(false)"
+        />
+        @if (nameError()) {
+            <small class="error">{{ 'APP.PAGES.EXERCISES.NAME_EXISTS' | translate }}</small>
+        }
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>{{ 'APP.PAGES.EXERCISES.TYPE' | translate }}</mat-label>
+        <mat-select [(ngModel)]="type">
+            @for (option of types; track option.value) {
+                <mat-option [value]="option.value">{{ option.labelKey | translate }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button
+        mat-button
+        type="button"
+        (click)="close()"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}
+    </button>
+    @if (!isNew && !isArchived) {
+        <button
+            mat-button
+            color="warn"
+            type="button"
+            (click)="archive()"
+        >
+            {{ 'APP.PAGES.EXERCISES.ARCHIVE' | translate }}
+        </button>
+    }
+    @if (!isNew && isArchived) {
+        <button
+            mat-button
+            type="button"
+            (click)="restore()"
+        >
+            {{ 'APP.PAGES.EXERCISES.RESTORE' | translate }}
+        </button>
+    }
+    <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        (click)="save()"
+        [disabled]="!name().trim()"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.SAVE' | translate }}
+    </button>
+</mat-dialog-actions>

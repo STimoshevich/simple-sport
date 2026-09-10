@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="settings-options">
+    @for (option of data.options; track option.value) {
+        <button
+            mat-stroked-button
+            type="button"
+            (click)="select(option.value)"
+        >
+            {{ option.label }}
+        </button>
+    }
+</mat-dialog-content>

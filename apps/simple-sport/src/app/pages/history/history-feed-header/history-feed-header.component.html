@@ -1,0 +1,39 @@
+<header class="feed-header">
+    <h2>{{ 'APP.PAGES.HISTORY.TITLE' | translate }}</h2>
+    <div class="header-actions">
+        <div class="filters-cluster">
+            <button
+                mat-stroked-button
+                type="button"
+                class="filters-button"
+
+                (click)="openFilters.emit()"
+            >
+                {{ 'APP.PAGES.HISTORY.FILTERS' | translate }}
+            </button>
+        </div>
+<!--        [color]="hasActiveFilters() ? 'primary' : undefined"-->
+<!--        [class.is-active]="hasActiveFilters()"-->
+        <a
+            mat-icon-button
+            [routerLink]="paths.TIMER"
+            [attr.aria-label]="'APP.PAGES.HISTORY.TIMER' | translate"
+        >
+            <mat-icon>timer</mat-icon>
+        </a>
+
+    </div>
+    @if (periodLabel(); as label) {
+        <div class="period-chip">
+            <span>{{ label }}</span>
+            <button
+                mat-icon-button
+                type="button"
+                (click)="clearPeriod.emit()"
+                [attr.aria-label]="'APP.PAGES.HISTORY.CLEAR_DATES' | translate"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    }
+</header>

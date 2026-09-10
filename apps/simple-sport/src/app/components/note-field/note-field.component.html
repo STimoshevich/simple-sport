@@ -1,0 +1,18 @@
+<mat-form-field class="note-field">
+    <mat-label>{{ label() }}</mat-label>
+    <textarea
+        matInput
+        cdkTextareaAutosize
+        [cdkAutosizeMinRows]="minRows()"
+        cdkAutosizeMaxRows="8"
+        [maxlength]="maxLength()"
+        [ngModel]="value()"
+        (ngModelChange)="onInput($event)"
+    ></textarea>
+    @if (hint()) {
+        <mat-hint>{{ hint() }}</mat-hint>
+    }
+    @if (showCounter()) {
+        <mat-hint align="end">{{ value().length }}/{{ maxLength() }}</mat-hint>
+    }
+</mat-form-field>

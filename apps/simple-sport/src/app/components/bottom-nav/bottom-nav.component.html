@@ -1,0 +1,64 @@
+<nav
+    class="bottom-nav"
+    aria-label="Main"
+>
+    <a
+        class="nav-item"
+        [routerLink]="paths.PROGRESS"
+        routerLinkActive="active"
+        [attr.aria-label]="'APP.MENU.PROGRESS' | translate"
+    >
+        <span class="nav-icon">
+            <mat-icon>insights</mat-icon>
+        </span>
+        <span class="nav-label">{{ 'APP.MENU.PROGRESS' | translate }}</span>
+    </a>
+
+    <a
+        class="nav-item"
+        [routerLink]="paths.HISTORY"
+        routerLinkActive="active"
+        [attr.aria-label]="'APP.MENU.HISTORY' | translate"
+    >
+        <span class="nav-icon">
+            <mat-icon>fitness_center</mat-icon>
+        </span>
+        <span class="nav-label">{{ 'APP.MENU.HISTORY' | translate }}</span>
+    </a>
+
+    <a
+        class="nav-item"
+        [routerLink]="paths.PLANNING"
+        routerLinkActive="active"
+        [attr.aria-label]="'APP.MENU.PLANNING' | translate"
+    >
+        <span class="nav-icon">
+            <mat-icon>event_note</mat-icon>
+        </span>
+        <span class="nav-label">{{ 'APP.MENU.PLANNING' | translate }}</span>
+    </a>
+
+    <a
+        class="nav-item"
+        [routerLink]="paths.CALORIES"
+        routerLinkActive="active"
+        [attr.aria-label]="'APP.MENU.CALORIES' | translate"
+    >
+        <span class="nav-icon">
+            <mat-icon>restaurant</mat-icon>
+        </span>
+        <span class="nav-label">{{ 'APP.MENU.CALORIES' | translate }}</span>
+    </a>
+
+    <a
+        class="nav-item"
+        [routerLink]="paths.CONFIGURATION"
+        routerLinkActive="active"
+        [attr.aria-label]="'APP.SETTINGS.TITLE' | translate"
+    >
+        <span class="nav-icon">
+            <mat-icon>settings</mat-icon>
+        </span>
+        <span class="nav-label">{{ 'APP.SETTINGS.TITLE' | translate }}</span>
+    </a>
+</nav>

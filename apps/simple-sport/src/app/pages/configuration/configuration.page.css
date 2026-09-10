@@ -1,0 +1,4 @@
+/* Grouped settings rows live in global styles. */
+:host {
+    display: block;
+}

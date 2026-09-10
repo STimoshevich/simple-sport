@@ -1,0 +1,379 @@
+<section class="workout-editor-body">
+    <header class="editor-header">
+        <h2>{{ 'APP.PAGES.WORKOUT_DETAIL.TITLE' | translate }}</h2>
+        <div class="header-actions">
+            @if (store.trainingId()) {
+                <button
+                    mat-icon-button
+                    type="button"
+                    (click)="confirmDeleteTraining()"
+                    [attr.aria-label]="'APP.PAGES.WORKOUT_DETAIL.DELETE_TRAINING' | translate"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            }
+            <button
+                mat-icon-button
+                type="button"
+                (click)="tryClose()"
+                [attr.aria-label]="'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </header>
+
+    <mat-form-field
+        class="date-field"
+        (click)="openPicker(picker)"
+    >
+        <mat-label>{{ 'APP.PAGES.HISTORY.DATE' | translate }}</mat-label>
+        <input
+            matInput
+            [matDatepicker]="picker"
+            [ngModel]="dateModel()"
+            (ngModelChange)="onDatePicked($event, picker)"
+            readonly
+            (click)="$event.stopPropagation(); openPicker(picker)"
+        />
+        <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+            (click)="$event.stopPropagation()"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+            #picker
+            [touchUi]="true"
+            panelClass="fullscreen-date-range-picker"
+        ></mat-datepicker>
+    </mat-form-field>
+    @if (store.trainingId()) {
+        <div class="header-fields">
+            <mat-form-field class="date-field">
+                <mat-label>{{ 'APP.PAGES.WORKOUT_DETAIL.NAME' | translate }}</mat-label>
+                <input
+                    matInput
+                    [ngModel]="store.name()"
+                    (ngModelChange)="store.setName($event)"
+                />
+            </mat-form-field>
+            <app-note-field
+                [label]="'APP.PAGES.WORKOUT_DETAIL.COMMENT' | translate"
+                [value]="store.comment()"
+                (valueChange)="store.setComment($event)"
+            />
+        </div>
+    }
+    @if (store.isPlanned()) {
+        <p class="planned-note">{{ 'APP.PAGES.WORKOUT_DETAIL.PLANNED' | translate }}</p>
+    }
+
+    @if (draft(); as create) {
+        <section class="inline-create">
+            <h3>{{ createLabel(create.name) }}</h3>
+            <mat-form-field>
+                <mat-label>{{ 'APP.PAGES.EXERCISES.NAME' | translate }}</mat-label>
+                <input
+                    matInput
+                    [(ngModel)]="create.name"
+                    (ngModelChange)="createError.set(null)"
+                />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{ 'APP.PAGES.EXERCISES.TYPE' | translate }}</mat-label>
+                <mat-select [(ngModel)]="create.type">
+                    @for (option of types; track option.value) {
+                        <mat-option [value]="option.value">{{ option.labelKey | translate }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <app-note-field
+                [label]="'APP.PAGES.EXERCISES.NOTE' | translate"
+                [value]="create.comment"
+                (valueChange)="create.comment = $event"
+            />
+            @if (createError() === 'exists') {
+                <p class="error">{{ 'APP.PAGES.EXERCISES.NAME_EXISTS' | translate }}</p>
+            }
+            @if (createError() === 'archived') {
+                <p class="error">{{ 'APP.PAGES.EXERCISES.NAME_EXISTS' | translate }}</p>
+                <button
+                    mat-stroked-button
+                    type="button"
+                    (click)="restoreArchived()"
+                >
+                    {{ 'APP.PAGES.EXERCISES.RESTORE_ARCHIVED' | translate }}
+                </button>
+            }
+            <div class="inline-create-actions">
+                <button
+                    mat-stroked-button
+                    type="button"
+                    (click)="cancelCreate()"
+                >
+                    {{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}
+                </button>
+                <button
+                    mat-flat-button
+                    color="primary"
+                    type="button"
+                    (click)="confirmCreate()"
+                    [disabled]="!create.name.trim()"
+                >
+                    {{ 'APP.PAGES.WORKOUT_DETAIL.SAVE' | translate }}
+                </button>
+            </div>
+        </section>
+    }
+
+    @if (store.isChooser() && !draft()) {
+        <div class="create-choices">
+            <button
+                mat-stroked-button
+                type="button"
+                class="choice-button"
+                disabled
+                (click)="createFromTemplate()"
+            >
+                {{ 'APP.PAGES.WORKOUT_DETAIL.FROM_TEMPLATE' | translate }}
+            </button>
+            <p class="choice-hint">{{ 'APP.PAGES.WORKOUT_DETAIL.NO_TEMPLATES' | translate }}</p>
+            <button
+                mat-stroked-button
+                type="button"
+                class="choice-button"
+                (click)="createFromExercises()"
+            >
+                {{ 'APP.PAGES.WORKOUT_DETAIL.PICK_EXERCISES' | translate }}
+            </button>
+            @if (!store.catalogNames().length) {
+                <p class="choice-hint">
+                    {{ 'APP.PAGES.WORKOUT_DETAIL.NO_CATALOG' | translate }}
+                    <a
+                        [routerLink]="paths.CONFIGURATION_EXERCISES"
+                        (click)="tryClose()"
+                    >
+                        {{ 'APP.PAGES.WORKOUT_DETAIL.NO_CATALOG_LINK' | translate }}
+                    </a>
+                </p>
+            }
+            <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                class="choice-button"
+                (click)="createEmpty()"
+            >
+                {{ 'APP.PAGES.WORKOUT_DETAIL.EMPTY_WORKOUT' | translate }}
+            </button>
+        </div>
+    } @else if (store.trainingId()) {
+        <div class="add-exercise-block">
+            <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                class="add-exercise-button"
+                (click)="addExercises()"
+            >
+                {{ 'APP.PAGES.WORKOUT_DETAIL.ADD_EXERCISE' | translate }}
+            </button>
+            @if (!store.catalogNames().length) {
+                <p class="catalog-hint">
+                    {{ 'APP.PAGES.WORKOUT_DETAIL.NO_CATALOG' | translate }}
+                    <a
+                        [routerLink]="paths.CONFIGURATION_EXERCISES"
+                        (click)="tryClose()"
+                    >
+                        {{ 'APP.PAGES.WORKOUT_DETAIL.NO_CATALOG_LINK' | translate }}
+                    </a>
+                </p>
+            }
+        </div>
+
+        @for (workout of store.workouts(); track workout.id) {
+            <mat-card class="exercise-card">
+                <div class="exercise-head">
+                    <div class="exercise-pick">
+                        <app-custom-list-select
+                            [label]="'APP.PAGES.WORKOUT_DETAIL.EXERCISE' | translate"
+                            [items]="store.availableNames()"
+                            [selected]="workout.name ? [workout.name] : []"
+                            [multiple]="false"
+                            [displayWith]="displayName"
+                            [searchable]="true"
+                            [allowCreate]="true"
+                            [error]="!!store.validationErrorById()[workout.id]"
+                            [searchPlaceholder]="'APP.PAGES.WORKOUT_DETAIL.SEARCH' | translate"
+                            [createLabel]="createLabel"
+                            (selectionChange)="onExerciseSelected(workout.id, $event)"
+                            (createRequested)="startCreate($event, workout.id)"
+                        ></app-custom-list-select>
+                        @if (store.validationErrorById()[workout.id]) {
+                            <p class="field-error">{{ 'APP.PAGES.WORKOUT_DETAIL.VALIDATION_EXERCISE' | translate }}</p>
+                        }
+                    </div>
+                    <div class="exercise-meta">
+                        <span class="type-chip">{{ typeLabel(workout.type) | translate }}</span>
+                        <mat-checkbox
+                            [checked]="checkState(workout) === 'all'"
+                            [indeterminate]="checkState(workout) === 'partial'"
+                            [disabled]="checkState(workout) === 'empty'"
+                            [disableRipple]="true"
+                            (click)="onExerciseCheck($event, workout)"
+                            [attr.aria-label]="'APP.PAGES.WORKOUT_DETAIL.MARK_ALL' | translate"
+                        ></mat-checkbox>
+                        @if (setCount(workout); as count) {
+                            <span class="set-count">{{ count }}</span>
+                        }
+                        <button
+                            mat-icon-button
+                            type="button"
+                            class="exercise-delete"
+                            (click)="removeExercise(workout)"
+                            [attr.aria-label]="'APP.PAGES.WORKOUT_DETAIL.DELETE_EXERCISE' | translate"
+                        >
+                            <mat-icon>delete_outline</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <section class="note-section">
+                    <button
+                        type="button"
+                        class="note-toggle"
+                        (click)="toggleNote(workout)"
+                    >
+                        <mat-icon>{{ isNoteOpen(workout) ? 'expand_less' : 'expand_more' }}</mat-icon>
+                        {{ 'APP.PAGES.WORKOUT_DETAIL.EXERCISE_NOTE' | translate }}
+                    </button>
+                    @if (isNoteOpen(workout)) {
+                        @if (catalogHint(workout); as hint) {
+                            <div class="catalog-note">
+                                <p class="catalog-note-label">
+                                    {{ 'APP.PAGES.WORKOUT_DETAIL.CATALOG_NOTE' | translate }}
+                                </p>
+                                <p class="catalog-note-text">{{ hint }}</p>
+                            </div>
+                        }
+                        <app-note-field
+                            [label]="'APP.PAGES.WORKOUT_DETAIL.SESSION_NOTE' | translate"
+                            [value]="workout.comment ?? ''"
+                            (valueChange)="store.setExerciseComment(workout.id, $event)"
+                        />
+                    }
+                </section>
+
+                <div
+                    class="set-list"
+                    cdkDropList
+                    [cdkDropListData]="workout.sets ?? []"
+                    [cdkDropListDisabled]="(workout.sets?.length ?? 0) < 2"
+                    (cdkDropListDropped)="onSetDrop($event, workout)"
+                >
+                    @for (set of workout.sets ?? []; track set.id; let i = $index) {
+                        <div
+                            class="set-row"
+                            cdkDrag
+                            [cdkDragDisabled]="(workout.sets?.length ?? 0) < 2"
+                            appSwipeDelete
+                            (deleted)="removeSet(workout, set)"
+                        >
+                            <mat-icon
+                                class="drag-handle"
+                                cdkDragHandle
+                                aria-hidden="true"
+                            >
+                                drag_indicator
+                            </mat-icon>
+                            <mat-checkbox
+                                [checked]="set.done"
+                                [disableRipple]="true"
+                                (click)="onSetCheck($event, workout, set)"
+                                [attr.aria-label]="'APP.PAGES.WORKOUT_DETAIL.SET' | translate"
+                            ></mat-checkbox>
+                            <span class="set-index">{{ i + 1 }}</span>
+                            <div class="set-body">
+                                <div
+                                    class="metric-grid"
+                                    [class.metric-grid-single]="metricFields(workout, set).length === 1"
+                                >
+                                    @for (field of metricFields(workout, set); track field) {
+                                        <mat-form-field>
+                                            <mat-label>
+                                                {{ metricLabelKey(field) | translate }}
+                                                @if (metricUnitKey(field); as unitKey) {
+                                                    ({{ unitKey | translate }})
+                                                }
+                                            </mat-label>
+                                            @if (field === 'duration') {
+                                                <input
+                                                    matInput
+                                                    [ngModel]="durationText(set)"
+                                                    (ngModelChange)="onDurationInput(workout, set, $event)"
+                                                    (blur)="onDurationBlur(workout, set)"
+                                                    [placeholder]="
+                                                        plannedPlaceholder(set, field) ||
+                                                        ('APP.PAGES.WORKOUT_DETAIL.DURATION_PLACEHOLDER' | translate)
+                                                    "
+                                                />
+                                            } @else {
+                                                <input
+                                                    matInput
+                                                    type="number"
+                                                    min="0"
+                                                    [attr.step]="field === 'reps' ? '1' : 'any'"
+                                                    [attr.inputmode]="field === 'reps' ? 'numeric' : 'decimal'"
+                                                    [ngModel]="metricValue(set, field)"
+                                                    (ngModelChange)="
+                                                        onMetricInput(workout, set, field, $event, metricInput)
+                                                    "
+                                                    [placeholder]="plannedPlaceholder(set, field)"
+                                                    #metricInput
+                                                />
+                                            }
+                                        </mat-form-field>
+                                    }
+                                </div>
+                                @if (derivedCardio(set); as derived) {
+                                    <p class="derived-metrics">
+                                        {{ 'APP.PAGES.WORKOUT_DETAIL.SPEED' | translate }}: {{ derived.speed }}
+                                        ·
+                                        {{ 'APP.PAGES.WORKOUT_DETAIL.PACE' | translate }}: {{ derived.pace }}
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <button
+                    mat-stroked-button
+                    type="button"
+                    class="add-set-button"
+                    (click)="addSet(workout)"
+                >
+                    {{ 'APP.PAGES.WORKOUT_DETAIL.ADD_SET' | translate }}
+                </button>
+            </mat-card>
+        }
+
+        <div class="actions sticky-actions">
+            <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                (click)="save()"
+            >
+                {{ 'APP.PAGES.WORKOUT_DETAIL.SAVE' | translate }}
+            </button>
+            <button
+                mat-stroked-button
+                type="button"
+                (click)="cancel()"
+            >
+                {{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}
+            </button>
+        </div>
+    }
+</section>

@@ -1,0 +1,376 @@
+@use '@angular/material' as mat;
+
+html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+
+    --app-bottom-nav-height: 76px;
+    --app-page-pad: 16px;
+    --app-radius-sm: 12px;
+    --app-radius-md: 18px;
+    --app-radius-lg: 24px;
+    --app-tap: 48px;
+    --app-bg-image: url('/backgrounds/app-bg-dark.jpg');
+    --app-bg-wash: color-mix(in srgb, var(--mat-sys-surface) 72%, transparent);
+    --app-bg-glow-a: color-mix(in srgb, var(--mat-sys-primary) 18%, transparent);
+    --app-bg-glow-b: color-mix(in srgb, var(--mat-sys-tertiary) 12%, transparent);
+    --app-bg-glow-c: color-mix(in srgb, var(--mat-sys-primary-container) 28%, transparent);
+
+    @include mat.theme(
+        (
+            color: (
+                primary: mat.$spring-green-palette,
+                tertiary: mat.$orange-palette,
+            ),
+            typography: (
+                plain-family: Manrope,
+                brand-family: Manrope,
+            ),
+            density: 0,
+        )
+    );
+    @include mat.system-classes;
+
+    &.theme-light {
+        color-scheme: light;
+        --app-bg-image: url('/backgrounds/app-bg-light.jpg');
+        --app-bg-wash: color-mix(in srgb, var(--mat-sys-surface) 62%, transparent);
+        --app-bg-glow-a: color-mix(in srgb, var(--mat-sys-primary) 14%, transparent);
+        --app-bg-glow-b: color-mix(in srgb, var(--mat-sys-tertiary) 10%, transparent);
+        --app-bg-glow-c: color-mix(in srgb, var(--mat-sys-primary-container) 34%, transparent);
+    }
+
+    &.theme-dark {
+        color-scheme: dark;
+        --app-bg-image: url('/backgrounds/app-bg-dark.jpg');
+        --app-bg-wash: color-mix(in srgb, var(--mat-sys-surface) 72%, transparent);
+        --app-bg-glow-a: color-mix(in srgb, var(--mat-sys-primary) 18%, transparent);
+        --app-bg-glow-b: color-mix(in srgb, var(--mat-sys-tertiary) 12%, transparent);
+        --app-bg-glow-c: color-mix(in srgb, var(--mat-sys-primary-container) 28%, transparent);
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: Manrope, 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    font: var(--mat-sys-body-large);
+    font-family: Manrope, 'Helvetica Neue', sans-serif;
+    overscroll-behavior-y: contain;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 90% 55% at 12% -8%, var(--app-bg-glow-a), transparent 58%),
+        radial-gradient(ellipse 75% 50% at 100% 18%, var(--app-bg-glow-b), transparent 52%),
+        radial-gradient(ellipse 70% 45% at 48% 108%, var(--app-bg-glow-c), transparent 55%),
+        linear-gradient(var(--app-bg-wash), var(--app-bg-wash)),
+        var(--app-bg-image) center / cover no-repeat;
+    background-color: var(--mat-sys-surface);
+    transition:
+        background-image 280ms ease,
+        opacity 280ms ease;
+}
+
+button,
+input,
+select,
+textarea,
+a {
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+}
+
+.mat-mdc-card {
+    border-radius: var(--app-radius-md) !important;
+    box-shadow: none !important;
+    background: var(--mat-sys-surface-container) !important;
+}
+
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-protected-button,
+.mat-mdc-button {
+    min-height: 44px;
+    border-radius: 999px !important;
+    letter-spacing: 0;
+}
+
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+    box-shadow: none !important;
+}
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+    border-radius: var(--app-radius-sm) !important;
+}
+
+.mat-bottom-sheet-container {
+    border-top-left-radius: var(--app-radius-lg) !important;
+    border-top-right-radius: var(--app-radius-lg) !important;
+    padding: 20px var(--app-page-pad) calc(20px + env(safe-area-inset-bottom)) !important;
+    background: var(--mat-sys-surface-container-low) !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: var(--app-radius-lg) !important;
+}
+
+.mat-mdc-dialog-title {
+    font: var(--mat-sys-headline-small) !important;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.page-header h2,
+.page > h2 {
+    margin: 0;
+    font: var(--mat-sys-headline-medium);
+    letter-spacing: -0.03em;
+    font-weight: 700;
+}
+
+.page-lead,
+.page > p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-body-medium);
+}
+
+.page-header .page-lead {
+    margin-top: 4px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.section-label {
+    margin: 8px 0 0;
+    padding: 0 4px;
+    font: var(--mat-sys-label-large);
+    color: var(--mat-sys-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.list-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.surface-card,
+.session-card,
+.hub-card,
+.list-row,
+.exercise-card {
+    background: var(--mat-sys-surface-container);
+    color: var(--mat-sys-on-surface);
+    border: 0;
+    border-radius: var(--app-radius-md);
+}
+
+.session-card,
+.hub-card,
+.list-row {
+    display: flex;
+    text-decoration: none;
+    min-height: var(--app-tap);
+}
+
+.session-card:active,
+.hub-card:active,
+.list-row:active,
+.settings-row:active {
+    background: var(--mat-sys-surface-container-high);
+}
+
+.metric,
+.hero-value,
+.exercise-metrics {
+    font-variant-numeric: tabular-nums;
+}
+
+.exercise-metrics {
+    font-weight: 600;
+}
+
+.type-chip {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+    font: var(--mat-sys-label-small);
+}
+
+.empty-state,
+.empty-state-label,
+.history-empty-label,
+.history-end-label {
+    margin: 0;
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+}
+
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-group h3 {
+    margin: 0;
+    padding: 0 4px;
+    font: var(--mat-sys-label-large);
+    color: var(--mat-sys-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.settings-list {
+    overflow: hidden;
+    background: var(--mat-sys-surface-container);
+    border-radius: var(--app-radius-md);
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 16px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: var(--mat-sys-body-large);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.settings-row + .settings-row {
+    border-top: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 70%, transparent);
+}
+
+.settings-row-label {
+    flex: 1;
+}
+
+.settings-row-value {
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-body-medium);
+}
+
+.settings-row mat-icon {
+    color: var(--mat-sys-outline);
+}
+
+.settings-row.danger,
+.settings-row.danger .settings-row-label,
+.settings-row.danger mat-icon {
+    color: var(--mat-sys-error);
+}
+
+.back-link {
+    color: var(--mat-sys-primary);
+    text-decoration: none;
+    font: var(--mat-sys-label-large);
+    font-weight: 600;
+}
+
+.progress-chart {
+    width: 100%;
+    height: 260px;
+    margin-top: 4px;
+    border-radius: var(--app-radius-md);
+    background: var(--mat-sys-surface-container);
+    font-family: Manrope, 'Helvetica Neue', sans-serif;
+
+    --chart-text: var(--mat-sys-on-surface);
+    --chart-muted: var(--mat-sys-on-surface-variant);
+    --chart-primary: var(--mat-sys-primary);
+    --chart-tertiary: var(--mat-sys-tertiary);
+    --chart-outline: var(--mat-sys-outline-variant);
+    --chart-surface: var(--mat-sys-surface-container);
+}
+
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-options button {
+    width: 100%;
+}
+
+.fullscreen-date-range-picker .mat-datepicker-content-container,
+.fullscreen-date-range-picker .mat-mdc-datepicker-content,
+.fullscreen-date-range-picker .mat-mdc-datepicker-content .mat-calendar {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+}
+
+.mat-datepicker-content-touch {
+    max-height: 100dvh !important;
+}
+
+.cdk-overlay-pane.mat-datepicker-dialog {
+    max-width: 100vw !important;
+}
+
+.workout-editor-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    border-radius: 0 !important;
+}

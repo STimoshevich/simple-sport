@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>{{ 'APP.PAGES.WORKOUT_DETAIL.UNSAVED_TITLE' | translate }}</h2>
+<mat-dialog-content>{{ 'APP.PAGES.WORKOUT_DETAIL.UNSAVED_CONFIRM' | translate }}</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button
+        mat-button
+        (click)="close('cancel')"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.CANCEL' | translate }}
+    </button>
+    <button
+        mat-button
+        (click)="close('discard')"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.DISCARD' | translate }}
+    </button>
+    <button
+        mat-flat-button
+        color="primary"
+        (click)="close('save')"
+    >
+        {{ 'APP.PAGES.WORKOUT_DETAIL.SAVE' | translate }}
+    </button>
+</mat-dialog-actions>
